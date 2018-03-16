@@ -1,6 +1,7 @@
 body {
   overflow-x: hidden;
   font-family: 'Roboto Slab', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  min-height: 100px;
 }
 
 p {
@@ -187,19 +188,18 @@ div.masthead .intro-text .intro-heading {
   }
 }
 
-.service-heading {
-  margin: 15px 0;
-  text-transform: none;
-}
 
 .proposal {
   margin-top: 100px;
 }
 
-#landing-header {
-  z-index: 1;
-  font-family: 'Bitter', serif;
-  position: relative;
+.footer {
+  position: absolute;
+  right: 0;
+  margin-bottom: 0;
+  left: 0;
+  padding: 1rem;
+  color: white;
+  background-color: #343A40;
   text-align: center;
-  padding-top: 40vh;
 }
