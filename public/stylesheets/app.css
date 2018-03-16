@@ -133,6 +133,8 @@ section h3.section-subheading {
 
 div.masthead {
   text-align: center;
+  width: 100vw;
+  height: 100vh;
   color: white;
   background-image: url("https://www.bnymellon.com/us/en/_locale-assets/img/our-thinking/articles/fintechvideos-1260-410.jpg");
   background-repeat: no-repeat;
