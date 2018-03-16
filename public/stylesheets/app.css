@@ -130,25 +130,26 @@ section h3.section-subheading {
   }
 }
 
-header.masthead {
+div.masthead {
   text-align: center;
   color: white;
   background-image: url("https://www.bnymellon.com/us/en/_locale-assets/img/our-thinking/articles/fintechvideos-1260-410.jpg");
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
+  background-size: 100%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
 
-header.masthead .intro-text {
+div.masthead .intro-text {
   padding-top: 150px;
   padding-bottom: 100px;
 }
 
-header.masthead .intro-text .intro-lead-in {
+div.masthead .intro-text .intro-lead-in {
   font-size: 22px;
   font-style: italic;
   line-height: 22px;
@@ -156,7 +157,7 @@ header.masthead .intro-text .intro-lead-in {
   font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-header.masthead .intro-text .intro-heading {
+div.masthead .intro-text .intro-heading {
   font-size: 50px;
   font-weight: 700;
   line-height: 50px;
@@ -165,18 +166,19 @@ header.masthead .intro-text .intro-heading {
 }
 
 @media (min-width: 768px) {
-  header.masthead .intro-text {
+  div.masthead .intro-text {
     padding-top: 300px;
     padding-bottom: 200px;
+
   }
-  header.masthead .intro-text .intro-lead-in {
+  div.masthead .intro-text .intro-lead-in {
     font-size: 40px;
     font-style: italic;
     line-height: 40px;
     margin-bottom: 25px;
     font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
-  header.masthead .intro-text .intro-heading {
+  div.masthead .intro-text .intro-heading {
     font-size: 75px;
     font-weight: 700;
     line-height: 75px;
@@ -192,4 +194,12 @@ header.masthead .intro-text .intro-heading {
 
 .proposal {
   margin-top: 100px;
+}
+
+#landing-header {
+  z-index: 1;
+  font-family: 'Bitter', serif;
+  position: relative;
+  text-align: center;
+  padding-top: 40vh;
 }
