@@ -205,3 +205,81 @@ div.masthead .intro-text .intro-heading {
   background-color: #343A40;
   text-align: center;
 }
+
+.inner-bg {
+  padding-top: 15%;
+
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
+}
+
+
+
+.top-content .text {
+  padding-top: 5%;
+  color: #fff;
+}
+
+.form-bottom {
+  padding: 25px 25px 30px 25px;
+  background: #eee;
+  opacity: 0.99;
+  -moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
+  text-align: left;
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
+}
+
+.form-bottom2 {
+  padding: 25px 25px 30px 25px;
+  background: #eee;
+  width: 50%;
+  margin: 0 auto ;
+  opacity: 0.99;
+  -moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
+  text-align: center;
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
+}
+
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.form-bottom form .input-error {
+  border-color: #19b9e7;
+}
+
+

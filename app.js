@@ -49,10 +49,19 @@ app.listen(3000, function(){
 
 
 app.get("/", function(rq, rs){
-	rs.render("landing")
+	rs.render("landing");
 });
 
 
 app.get("/proposta", function(rq, rs){
-	rs.render("proposal")
+	rs.render("proposal");
 });
+
+
+app.get("/register", function(rq, rs){
+    rs.render("signup");
+})
+
+app.get("/login", function(rq, rs){
+    rs.render("login");
+})
