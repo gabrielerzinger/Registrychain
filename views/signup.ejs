@@ -16,30 +16,30 @@
 					</div>
 					<div class="col-sm-5 form-box">
 						<div class="form-bottom">
-							<form role="form" action="" method="post" class="registration-form">
+							<form action="/register" enctype="multipart/form-data" method="POST" class="registration-form" >
 								<div class="form-group">
 									<label class="sr-only" for="form-first-name">Nome</label>
-									<input type="text" name="name" placeholder="Nome..." class="form-first-name form-control">
+									<input type="text" name="usr[username]" placeholder="Nome..." class="form-first-name form-control">
 								</div>
 								<div class="form-group">
 									<label class="sr-only">CPF</label>
-									<input type="text" name="cpf" placeholder="CPF..." class="form-last-name form-control" id="form-last-name">
+									<input type="text" name="usr[cpf]" placeholder="CPF..." class="form-last-name form-control" id="form-last-name">
 								</div>
 								<div class="form-group">
 									<label class="sr-only">RG</label>
-									<input type="text" name="rg" placeholder="RG..." class="form-first-name form-control">
+									<input type="text" name="usr[rg]" placeholder="RG..." class="form-first-name form-control">
 								</div>
 								<div class="form-group">
 									<label class="sr-only" for="form-email">Email</label>
-									<input type="text" name="email" placeholder="Email..." class="form-email form-control">
+									<input type="text" name="usr[email]" placeholder="Email..." class="form-email form-control">
 								</div>
 								<div class="form-group">
 									<label class="sr-only" for="form-email">Endereço</label>
-									<input type="text" name="endereco" placeholder="Endereço..." class="form-email form-control">
+									<input type="text" name="usr[address]" placeholder="Endereço..." class="form-email form-control">
 								</div>
 								<div class="form-group">
 									<label class="sr-only">Password</label>
-									<input type="password" name="pwd" placeholder="Senha..." class="form-email form-control">
+									<input type="password" name="usr[pwd]" placeholder="Senha..." class="form-email form-control">
 								</div>
 								<button type="submit" class="btn btn-outline-primary">Registrar</button>
 							</form>
