@@ -39,12 +39,12 @@ mongoose.connect(process.env.DATABASEURL);
 //seedDB();
 
 //Pass currUser to all templates
-/*app.use(function(req, res, next){
+app.use(function(req, res, next){
     res.locals.currUser = req.user;
     res.locals.error    = req.flash("error");
     res.locals.success  = req.flash("success");
     next();
-});*/
+});
 
 app.use(indexRoutes);
 

@@ -1,0 +1,182 @@
+<% include ./partials/header %>
+<div class="container">
+	<div class="row my-2" style="padding-top: 10%;">
+		<div class="col-lg-8 order-lg-2">
+			<ul class="nav nav-tabs">
+				<li class="nav-item">
+					<a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Perfil</a>
+				</li>
+				<li class="nav-item">
+					<a href="" data-target="#messages" data-toggle="tab" class="nav-link">Contratos</a>
+				</li>
+				<% if(currUser && currUser.pubKey == usr.pubKey){ %>
+					<li class="nav-item">
+						<a href="" data-target="#edit" data-toggle="tab" class="nav-link">	Editar</a>
+					</li>
+				<% } %>
+			</ul>
+			<div class="tab-content py-4">
+				<div class="tab-pane active" id="profile">
+					<h5 class="mb-3"><%= usr.name %></h5>
+					<div class="row">
+						<div class="col-md-6">
+							<h6>Dados</h6>
+							<p>
+								<div class="row">
+									<div class="col-md-6 col-xs-6">
+										<strong>CPF:</strong> <%= usr.cpf.substr(0, usr.cpf.length - 3) + "#-##" %>
+									</div>
+									<div class="col-md-6 col-xs-6">
+										<strong>RG:</strong> <%= usr.rg.substr(0, usr.cpf.length - 1) + "-#" %>
+									</div>
+								</div>
+							</p>
+							<h6>Chave pública</h6>
+							<div class="col-md-12">
+								<p><img id = "qrcode" src= <%= imgurl %> ></p>
+								<p><strong>Email: <%=  usr.email  %> </strong></p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div id="map">
+									
+							</div>
+						</div>
+					</div>
+					<!--/row-->
+				</div>
+				<div class="tab-pane" id="messages">
+					
+					<table class="table table-hover table-striped">
+						<tbody>
+							<tr>
+								<td>
+									<span class="float-right font-weight-bold">3 hrs ago</span> Nostrud tempor ut ut proident reprehenderit et deserunt ut in ut aute magna do elit deserunt deserunt id veniam culpa ut nisi.
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="float-right font-weight-bold">Yesterday</span> Lorem Eu non non est nostrud dolor cillum enim dolor esse deserunt nisi.
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="float-right font-weight-bold">9/10</span> Porttitor vitae ultrices quis, dapibus id dolor. Morbi venenatis lacinia rhoncus.
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="float-right font-weight-bold">9/4</span> Vestibulum tincidunt ullamcorper eros eget luctus.
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="float-right font-weight-bold">9/4</span> Maxamillion ais the fix for tibulum tincidunt ullamcorper eros.
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="tab-pane" id="edit">
+					<form role="form">
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Nome de Usuário</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="text" value="<%= usr.name %>">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">CPF</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="text" value=<%= usr.cpf %> disabled="true">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">RG</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="text" value="<%= usr.rg %>" disabled="true">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Email</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="email" value=
+								"<%= usr.email %>">
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Endereço</label>
+							<div class="col-lg-9">
+								<% console.log(usr.address)%>
+								<input class="form-control" type="text" value=
+								"<%= usr.address %>" >
+							</div>
+						</div>
+						<div class="form-group row">
+							
+						</div>
+						
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Senha</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="password">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Confirmar Senha</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="password">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label"></label>
+							<div class="col-lg-9">
+								<input type="reset" class="btn btn-outline-danger" value="Cancelar">
+								<input type="button" class="btn btn-outline-primary" value="Salvar">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 order-lg-1 text-center">
+			<img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+			<% if(currUser && currUser.pubKey == usr.pubKey ){%>
+			<label class="custom-file">
+				<input type="file" id="file" class="custom-file-input">
+				<span class="btn btn-outline-primary custom-file-control">Escolher Arquivo</span>
+			</label>
+			<%}%>
+		</div>
+	</div>
+</div>
+
+<script>
+function initMap() {
+	var lat = <%= usr.lat %>;
+	var lng = <%= usr.lng %>;
+	var center = {lat: lat, lng: lng };
+	var map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 16,
+		center: center,
+		scrollwheel: false
+	});
+	var contentString = `
+	<strong><br />
+	<%= usr.address %></strong>
+	`
+	var infowindow = new google.maps.InfoWindow({
+		content: contentString
+	});
+	var marker = new google.maps.Marker({
+		position: center,
+		map: map
+	});
+	marker.addListener('click', function() {
+		infowindow.open(map, marker);
+	});
+}
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCio4lYxoCkqA2LEEybZl7BemCez4OlN7Y&callback=initMap"></script>
+<% include ./partials/footer %>

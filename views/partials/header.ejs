@@ -13,7 +13,7 @@
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
-
+    
     <title>RegistryChain</title>
   </head>
   <!-- Navigation -->
@@ -32,6 +32,17 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#">Funcionamento</a>
           </li>
+          <% if(currUser){ %>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href=<%= "/profile/"+ currUser._id%> ">
+              Olá <%= currUser.name %>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" id="logout" href="/logout">Sair</a>
+          <% } else { %>
+
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="/login">Entrar</a>
           </li>
@@ -39,8 +50,10 @@
             <a class="nav-link js-scroll-trigger" href="/register">Registrar</a>
           </li>
           
+          <% } %>
         </ul>
       </div>
     </div>
   </nav>
   <body>
+    
