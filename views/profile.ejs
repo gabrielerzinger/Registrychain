@@ -78,29 +78,29 @@
 					</table>
 				</div>
 				<div class="tab-pane" id="edit">
-					<form role="form">
+					<form action="/profile/<%= usr._id %>?_method=PUT" method="POST"  enctype="multipart/form-data">
 						<div class="form-group row">
 							<label class="col-lg-3 col-form-label form-control-label">Nome de Usuário</label>
 							<div class="col-lg-9">
-								<input class="form-control" type="text" value="<%= usr.name %>">
+								<input class="form-control" name=usr[name] type="text" value="<%= usr.name %>">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-lg-3 col-form-label form-control-label">CPF</label>
 							<div class="col-lg-9">
-								<input class="form-control" type="text" value=<%= usr.cpf %> disabled="true">
+								<input class="form-control" type="text" name=usr[cpf] value=<%= usr.cpf %> disabled="true">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-lg-3 col-form-label form-control-label">RG</label>
 							<div class="col-lg-9">
-								<input class="form-control" type="text" value="<%= usr.rg %>" disabled="true">
+								<input class="form-control" type="text" name=usr[rg] value="<%= usr.rg %>" disabled="true">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-lg-3 col-form-label form-control-label">Email</label>
 							<div class="col-lg-9">
-								<input class="form-control" type="email" value=
+								<input class="form-control" type="email" name=usr[email] value=
 								"<%= usr.email %>">
 							</div>
 						</div>
@@ -108,8 +108,7 @@
 						<div class="form-group row">
 							<label class="col-lg-3 col-form-label form-control-label">Endereço</label>
 							<div class="col-lg-9">
-								<% console.log(usr.address)%>
-								<input class="form-control" type="text" value=
+								<input class="form-control" type="text" name=usr[address] value=
 								"<%= usr.address %>" >
 							</div>
 						</div>
@@ -117,25 +116,8 @@
 							
 						</div>
 						
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label">Senha</label>
-							<div class="col-lg-9">
-								<input class="form-control" type="password">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label">Confirmar Senha</label>
-							<div class="col-lg-9">
-								<input class="form-control" type="password">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-3 col-form-label form-control-label"></label>
-							<div class="col-lg-9">
-								<input type="reset" class="btn btn-outline-danger" value="Cancelar">
-								<input type="button" class="btn btn-outline-primary" value="Salvar">
-							</div>
-						</div>
+						
+								<button class="btn btn-outline-primary">Submit</button>
 					</form>
 				</div>
 			</div>

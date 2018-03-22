@@ -66,9 +66,9 @@ router.get("/login", function(rq, rs){
 
 router.put("/profile/:id", upload.array(), function(rq, rs) 
 {
-   geocoder.geocode(rq.body.location, function(err, data)
+   geocoder.geocode(rq.body.usr.address, function(err, data)
    {
-        if(!data || err){
+        if(!data.results[0] || err){
             return rs.redirect("back");
         }
         var lat = data.results[0].geometry.location.lat;
@@ -80,11 +80,11 @@ router.put("/profile/:id", upload.array(), function(rq, rs)
 
         User.findByIdAndUpdate(rq.params.id, rq.body.usr, function(err, updatedUsr) {
             if(err){
-                rq.flash("error", err.message);
+                console.log("errow")
                 rs.redirect("back");
             }
             else{
-                rq.flash("success", "Editado com sucesso!");
+                console.log('editei')
                 rs.redirect("/profile/"+updatedUsr._id);
             }
         });
@@ -97,7 +97,6 @@ router.get("/profile/:id", function(rq, rs){
     User.findById(rq.params.id, function(err, foundUser){
         QRCode.toDataURL(foundUser.pubKey, function (err, url) {
             rs.render("profile", {usr: foundUser, imgurl:url});
-            console.log(foundUser);
         })
     })
 })
