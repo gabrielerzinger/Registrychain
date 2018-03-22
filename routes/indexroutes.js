@@ -38,13 +38,13 @@ router.post("/register",upload.array(), function(rq, rs){
         var lat = data.results[0].geometry.location.lat;
         var lng = data.results[0].geometry.location.lng;
         var location = data.results[0].formatted_address;
+	    const usrK = new BigchainDB.Ed25519Keypair(bip39.mnemonicToSeed('seedPhrase').slice(0,32))
 
         rq.body.usr.lat = lat;
         rq.body.usr.lng = lng;
         rq.body.usr.address = location;
         rq.body.usr.pubKey  = usrK.publicKey;
 
-	    const usrK = new BigchainDB.Ed25519Keypair(bip39.mnemonicToSeed('seedPhrase').slice(0,32))
 
         User.register(rq.body.usr, rq.body.usr.pwd, function(err, usr) 
         {
