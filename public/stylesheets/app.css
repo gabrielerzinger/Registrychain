@@ -225,10 +225,11 @@ div.masthead .intro-text .intro-heading {
 }
 
 .form-bottom {
-  padding: 4% 4%;
+  padding: 3% 3%;
   background: #eee;
-  opacity: 0.99;
-  -moz-border-radius: 0px 0px 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
+  opacity: 0.95;
+  margin: 3% auto;
+  -moz-border-radius: 0px 0px 4px 4px; -webkit-border-radius: 4px 4px 4px 4px; border-radius: 4px 4px 4px 4px;
   text-align: left;
   -moz-animation: fadein 1s; /* Firefox */
   -webkit-animation: fadein 1s; /* Safari and Chrome */
@@ -236,15 +237,18 @@ div.masthead .intro-text .intro-heading {
 }
 
 .form-bottom2 {
-  padding: 4% 4%  ;
+  padding: 5% 5%  ;
   background: #eee;
-  width: 50%;
-  margin: 0 auto ;
+  width: 100%;
+  margin: 10% auto;
+  align-content: center;
   opacity: 0.99;
-  -moz-border-radius: 2px 2px 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px; 
+  -webkit-border-radius: 4px 4px 4px 4px; 
+  border-radius: 2px 2px 4px 4px;
   text-align: center;
   -moz-animation: fadein 1s; /* Firefox */
-  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -webkit-animation: fadein 0.5s; /* Safari and Chrome */
   -o-animation: fadein 1s; /* Opera */
 }
 
