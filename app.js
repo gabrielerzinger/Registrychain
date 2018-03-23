@@ -8,6 +8,7 @@ var bodyParser     = require("body-parser"),
     methodOverride = require("method-override"),
     passport       = require("passport"),
     multer         = require("multer"),
+    swal = require('sweetalert2'),
     User           = require("./models/user"),
     indexRoutes    = require("./routes/indexroutes");
 
@@ -41,6 +42,7 @@ mongoose.connect(process.env.DATABASEURL);
 //Pass currUser to all templates
 app.use(function(req, res, next){
     res.locals.currUser = req.user;
+    res.locals.Swalflag = false;
     res.locals.error    = req.flash("error");
     res.locals.success  = req.flash("success");
     next();

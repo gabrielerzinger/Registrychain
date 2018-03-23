@@ -4,7 +4,9 @@ var passport = require("passport");
 var User     = require("../models/user");
 var multer   = require('multer');
 var geocoder   = require('geocoder');
-var QRCode = require('qrcode');
+var QRCode = require('qrcode'),
+swal = require('sweetalert2');
+var middleware = require("../middlewares");
 
 const BigchainDB = require('bigchaindb-driver')
 const bip39 = require('bip39')
@@ -15,6 +17,8 @@ var upload = multer()
 
 router.get("/", function(rq, rs){
 	rs.render("landing");
+    
+
 });
 
 
@@ -55,7 +59,7 @@ router.post("/register",upload.array(), function(rq, rs){
 	              console.log('error', err.message);
 	              return rs.redirect('back');
 	            }
-	            rs.redirect('/');
+	            rs.redirect('/profile/'+usr._id);
 	        });
 	    });
 });
@@ -117,10 +121,9 @@ router.post("/login",function(req, res, next) {
 );
 
 
-router.get("/logout", function(rq, rs){
+router.get("/logout", middleware.isLoggedIn ,function(rq, rs){
     rq.logout();
-    rq.flash("success", "Até a proxima!");
-    rs.redirect("/");
+    rs.render('landing', {Swalflag:true, message:'Até a próxima!'});
 });
 
 module.exports = router;
