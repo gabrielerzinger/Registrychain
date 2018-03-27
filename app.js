@@ -36,7 +36,7 @@ passport.deserializeUser(User.deserializeUser());
 
 
 //Connect and seed the database
-mongoose.connect(process.env.DATABASEURL);
+mongoose.connect(process.env.DATABASEURL||'mongodb://localhost/RegistryChain');
 //seedDB();
 
 //Pass currUser to all templates
@@ -58,5 +58,3 @@ app.listen(process.env.PORT, process.env.IP, function(){
 app.listen(3000, function(){
 	console.log('Listening..');
 });
-
-
