@@ -29,7 +29,10 @@ export class C2CComponent implements OnInit {
             userId: this.user._id,
             userRole: this.userRole,
             counterpart: this.counterpart,
-            description: this.description
+            description: this.description,
+            hirerOk: this.userRole == 'hirer' ? true : false,
+            hiredOk: this.userRole == 'hired' ? true : false,
+            status: 'pending' 
         }).subscribe((c) => {
             if(c) {
                 this.success = true;

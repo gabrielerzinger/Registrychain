@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
-import { TabsModule } from 'ngx-bootstrap';
+import { TabsModule, ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
@@ -32,7 +32,8 @@ const appRoutes: Routes = [
         FormsModule,
         RouterModule.forRoot(appRoutes),
         HttpClientModule,
-        TabsModule.forRoot()
+        TabsModule.forRoot(),
+        ModalModule.forRoot()
     ],
     declarations: [
         AppComponent,

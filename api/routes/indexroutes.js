@@ -15,7 +15,10 @@ router.post("/c2c", (req, res) => {
 		C2C.create({
 			hirer: req.body.userRole == 'hirer' ? req.body.userId : doc._id,
 			hired: req.body.userRole == 'hired' ? req.body.userId : doc._id,
+			hirerOk: req.body.hirerOk,
+			hiredOk: req.body.hiredOk,
 			description: req.body.description,
+			status: req.body.status
 		}, (err, c) => {
 			if(err) {
 				console.log('error:', err);
@@ -59,4 +62,40 @@ router.get("/user/:username", (req, res) => {
 	})
 })
 
+router.get("/contracts/:status/:userId", (req, res) => {
+	C2C.find({
+		'hirer': req.params.userId,
+		'status': req.params.status
+	}, (err, docs) => {
+		if(docs) {
+			return C2C.find({
+				'hired': req.params.userId,
+				'status': req.params.status
+			}, (err, docs2) => {
+				if(docs2) return res.json([...docs, ...docs2]);
+				res.status(500).send();
+			});
+		}
+		res.status(500).send();
+	});
+});
+
+router.put("/c2c", (req, res) => {
+	C2C.findByIdAndUpdate(req.body._id, {
+		'hirer': req.body.hirer,
+		'hired': req.body.hired,
+		'hirerOk': req.body.hirerOk,
+		'hiredOk': req.body.hiredOk,
+		'status': req.body.status,
+		'description': req.body.description
+	});
+	res.status(200).send();
+});
+
+router.delete("/c2c/:id", (req, res) => {
+	C2C.findOneAndRemove({_id: req.params.id}, (err) => {
+		if(!err) console.log('done');
+	});
+	res.status(200).send();
+})
 module.exports = router;
