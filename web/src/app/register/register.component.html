@@ -1,0 +1,25 @@
+<div class="container-fluid blured">
+    <div class="panel panel-body centered">
+		<form (ngSubmit)="onSubmit()" #regForm="ngForm">
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Nome" class="form-control" [(ngModel)]="user.name">
+            </div>
+            <div class="form-group">
+                <input type="text" name="cpf" placeholder="CPF" class="form-control" [(ngModel)]="user.cpf">
+            </div>
+            <div class="form-group">
+                <input type="text" name="rg" placeholder="RG" class="form-control" [(ngModel)]="user.rg">
+            </div>
+            <div class="form-group">
+                <input type="text" name="email" placeholder="Email" class="form-control" [(ngModel)]="user.email">
+            </div>
+            <div class="form-group">
+                <input type="text" name="address" placeholder="Endereço" class="form-control" [(ngModel)]="user.address">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Senha" class="form-control" [(ngModel)]="user.password">
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Registrar</button>
+		</form>
+	</div>
+</div>

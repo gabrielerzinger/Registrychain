@@ -1,0 +1,14 @@
+<div class="container-fluid">
+	<!-- Top content -->
+	<div class="panel panel-body centered">
+		<form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+            <div class="form-group">
+               <input type="text" placeholder="CPF" class="form-control" [(ngModel)]="username" name="username">
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Senha" class="form-control" [(ngModel)]="password" name="password">
+            </div>
+			<button type="submit" class="btn btn-outline-primary">Entrar</button>
+		</form>
+	</div>
+</div>

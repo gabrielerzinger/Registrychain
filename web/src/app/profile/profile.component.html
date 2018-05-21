@@ -1,0 +1,67 @@
+<div *ngIf="user" class="container">
+	<div class="row my-2" style="padding-top: 12%;">
+		<div class="col-lg-8  col-sm-12 order-lg-2">
+		  	<tabset>
+		    	<tab heading="Perfil">
+					<div class="tab-content py-4">
+						<div class="tab-pane active">
+							<h5 class="mb-3">{{user.name}}</h5>
+							<div class="row">
+								<div class="col-lg-6 col-sm-12">
+									<h6>Dados</h6>
+									<div class="row">
+										<div class="col-md-6 col-sm-6">
+											<strong>CPF:</strong> {{user.cpf.substr(0, user.cpf.length - 3) + "#-##"}}
+										</div>
+									</div>
+									<h6>Chave pública</h6>
+									<div class="col-md-12">
+										<p><img id = "qrcode" [src]="user.pubkeyurl"></p>
+										<p><strong>Email: {{user.email}} </strong></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</tab>
+		    	<tab heading="Contratos">
+					<div class="tab-pane">
+						<table class="table table-hover table-striped">
+							<tbody>
+								<tr>
+									<td>
+										<span class="float-right font-weight-bold">3 hrs ago</span> Nostrud tempor ut ut proident reprehenderit et deserunt ut in ut aute magna do elit deserunt deserunt id veniam culpa ut nisi.
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<span class="float-right font-weight-bold">Yesterday</span> Lorem Eu non non est nostrud dolor cillum enim dolor esse deserunt nisi.
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<span class="float-right font-weight-bold">9/10</span> Porttitor vitae ultrices quis, dapibus id dolor. Morbi venenatis lacinia rhoncus.
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<span class="float-right font-weight-bold">9/4</span> Vestibulum tincidunt ullamcorper eros eget luctus.
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<span class="float-right font-weight-bold">9/4</span> Maxamillion ais the fix for tibulum tincidunt ullamcorper eros.
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<button class="btn btn-primary" routerLink="/c2c">Novo Contrato</button>
+					</div>
+				</tab>
+		  	</tabset>
+		</div>
+		<div class="col-lg-4 col-sm-12 order-lg-1 text-center ">
+			<img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+		</div>
+	</div>
+</div>

@@ -1,0 +1,17 @@
+.container-fluid {
+    background-image: url('/assets/background.jpg');
+    background-size: 100vw 100vh;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.panel {
+    border-radius: 10px;
+    border: 1px solid gray;
+    border-top: 3px solid gray;
+    padding: 70px;
+    background-color: white;
+    opacity: 0.85;
+}
