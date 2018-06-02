@@ -1,0 +1,744 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fin",
+				"finally\tkeyword"
+			],
+			[
+				"add",
+				"addreview"
+			],
+			[
+				"alig",
+				"align-content-center \tBootstrap 4 Class"
+			],
+			[
+				"padding",
+				"padding"
+			],
+			[
+				"bor",
+				"border-radius"
+			],
+			[
+				"table-s",
+				"table-inverse \tBootstrap 4 Class"
+			],
+			[
+				"content",
+				"align-content-center \tBootstrap 4 Class"
+			],
+			[
+				"cente",
+				"align-content-center \tBootstrap 4 Class"
+			],
+			[
+				"spacin",
+				"letter-spacing"
+			],
+			[
+				"mod",
+				"modInverse"
+			],
+			[
+				"mo",
+				"mmod"
+			],
+			[
+				"funcao",
+				"funcaoAuxiliar1"
+			],
+			[
+				"topic",
+				"topicEntry"
+			],
+			[
+				"align-",
+				"align-middle \tBootstrap 4 Class"
+			],
+			[
+				"align",
+				"align-content"
+			],
+			[
+				"btn-outline-",
+				"btn-outline-info \tBootstrap 4 Class"
+			],
+			[
+				"init",
+				"initMap"
+			],
+			[
+				"string",
+				"String\t( value: any ): String String"
+			],
+			[
+				"btn",
+				"b4:button:a\ta"
+			],
+			[
+				"background",
+				"background-size"
+			],
+			[
+				"text",
+				"text-decoration-color"
+			],
+			[
+				"margin-",
+				"margin-top"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"classLi",
+				"classList"
+			],
+			[
+				"clas",
+				"classList"
+			],
+			[
+				"class",
+				"className\t: DOMString Element"
+			],
+			[
+				"count",
+				"countingvalues"
+			],
+			[
+				"fib",
+				"fibLegal"
+			],
+			[
+				"reversed",
+				"reversed\treversed"
+			],
+			[
+				"sub",
+				"Submit"
+			],
+			[
+				"max-",
+				"max-width"
+			],
+			[
+				"s",
+				"size"
+			],
+			[
+				"background-c",
+				"background-color"
+			],
+			[
+				"d",
+				"datetime"
+			],
+			[
+				"doc",
+				"__doc__\tmagic"
+			],
+			[
+				"typ",
+				"type\ttype"
+			],
+			[
+				"de",
+				"defs\tMethod"
+			],
+			[
+				"is",
+				"is_valid_phone"
+			],
+			[
+				"quote",
+				"quoteList"
+			],
+			[
+				"arti",
+				"articleList"
+			],
+			[
+				"rithm",
+				"rithmURL"
+			],
+			[
+				"csv",
+				"csv_writer"
+			],
+			[
+				"speed",
+				"speed_test"
+			],
+			[
+				"yes",
+				"yes_or_no"
+			],
+			[
+				"_",
+				"__setitem__"
+			],
+			[
+				"dea",
+				"deal_card"
+			],
+			[
+				"car",
+				"Card"
+			],
+			[
+				"l",
+				"lNames"
+			],
+			[
+				"no",
+				"noVowels"
+			],
+			[
+				"num",
+				"nums_2"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"card-im",
+				"card-img-top \tBootstrap 4 Class"
+			],
+			[
+				"justi",
+				"justify-content-center \tBootstrap 4 Class"
+			],
+			[
+				"card",
+				"card-block \tBootstrap 4 Class"
+			],
+			[
+				"listen",
+				"server.listen"
+			],
+			[
+				"re",
+				"reps"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 354.0,
+		"last_filter": "package",
+		"selected_items":
+		[
+			[
+				"package",
+				"Package Control: Remove Package"
+			],
+			[
+				"go",
+				"Build With: Go - Install"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"set C",
+				"Set Syntax: C++"
+			],
+			[
+				"ht",
+				"Set Syntax: HTML"
+			],
+			[
+				"htmlbe",
+				"HTMLBeautify"
+			],
+			[
+				"set html",
+				"Set Syntax: HTML"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			],
+			[
+				"package inst",
+				"Package Control: Install Package"
+			],
+			[
+				"beau",
+				"HTMLBeautify"
+			],
+			[
+				"set hyml",
+				"Set Syntax: HTML"
+			],
+			[
+				"bea",
+				"HTMLBeautify"
+			],
+			[
+				"preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"set syn ht",
+				"Set Syntax: HTML (Tcl)"
+			],
+			[
+				"se html",
+				"Set Syntax: HTML"
+			],
+			[
+				"beaut",
+				"HTMLBeautify"
+			],
+			[
+				"import",
+				"Python Imports Sorter: sort imports"
+			],
+			[
+				"set ht",
+				"Set Syntax: HTML (Tcl)"
+			],
+			[
+				"lorem",
+				"LoremIpsum: (5) a bit"
+			],
+			[
+				"ident",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"packa in",
+				"Package Control: Install Package"
+			],
+			[
+				"set  HT",
+				"Set Syntax: HTML (Tcl)"
+			],
+			[
+				"beauty",
+				"HTMLBeautify"
+			],
+			[
+				"set syntax html",
+				"Set Syntax: HTML"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"markdow",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"inline",
+				"Inline Python: Execute selected code"
+			],
+			[
+				"package install",
+				"Package Control: Install Package"
+			],
+			[
+				"note",
+				"Open IPython Notebook"
+			],
+			[
+				"package ins",
+				"Package Control: Install Package"
+			],
+			[
+				"py",
+				"PyYapf: Format Selection"
+			],
+			[
+				"yapf",
+				"PyYapf: Format Document"
+			],
+			[
+				"pacla",
+				"Package Control: List Packages"
+			],
+			[
+				"auto",
+				"Preferences: AutoPep8 Settings – Default"
+			],
+			[
+				"html b",
+				"HTMLBeautify"
+			],
+			[
+				"markdown",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"package isnta",
+				"Package Control: Install Package"
+			],
+			[
+				"Pep8",
+				"Preferences: AutoPep8 Settings – Default"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"lo",
+				"LoremIpsum: (15) some"
+			],
+			[
+				"ips",
+				"LoremIpsum: (200) stick shake"
+			],
+			[
+				"autope",
+				"AutoPEP8: Format Code"
+			],
+			[
+				"",
+				"AutoPEP8: Format Code"
+			],
+			[
+				"pep8",
+				"AutoPEP8: Format Code"
+			],
+			[
+				"pep",
+				"AutoPEP8: Format Code"
+			],
+			[
+				"autop",
+				"AutoPEP8: Format Code"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"autopep",
+				"Preferences: AutoPep8 Settings – Default"
+			],
+			[
+				"autopep8",
+				"Preferences: AutoPep8 Settings – User"
+			],
+			[
+				"mark cheat",
+				"Markdown Preview: Open Markdown Cheat sheet"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"git: a",
+				"Git: Add All"
+			],
+			[
+				"set  html",
+				"Set Syntax: HTML"
+			],
+			[
+				"cards",
+				"Snippet: cards"
+			],
+			[
+				"install ",
+				"Install Package Control"
+			]
+		],
+		"width": 576.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/config.py",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/app.py",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/autoPub.py",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/templates/view/dashboard.html",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/templates/view/forum.html",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/model/Subscriber.py",
+		"/home/gabriel/Documents/yelprep/app.js",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/publisherAutomaticoCriptomoedas.py",
+		"/home/gabriel/Desktop/getnames.go",
+		"/home/gabriel/Documents/UNIFEI/Sistemas Distribuidos/Códigos/Python/subscriber.py",
+		"/home/gabriel/Documents/Baldochi Final/views/addbeer.ejs",
+		"/home/gabriel/Documents/Baldochi Final/routes/index.js",
+		"/home/gabriel/Documents/Baldochi Final/views/addFactor.ejs",
+		"/home/gabriel/Documents/Baldochi Final/models/user.js",
+		"/home/gabriel/Documents/Baldochi Final/views/partials/header.ejs",
+		"/home/gabriel/Documents/Baldochi Final/views/userprofile.ejs",
+		"/home/gabriel/Documents/Baldochi Final/public/stylesheets/app.css",
+		"/home/gabriel/Documents/yelprep/routes/index.js",
+		"/home/gabriel/Documents/yelprep/package.json",
+		"/home/gabriel/Documents/Baldochi Final/app.js",
+		"/home/gabriel/Documents/Baldochi Final/package.json",
+		"/home/gabriel/Documents/Baldochi Final/README.md",
+		"/home/gabriel/Documents/Baldochi Final/views/feed.ejs",
+		"/home/gabriel/Documents/Baldochi Final/views/landingpage.ejs",
+		"/home/gabriel/Documents/yelprep/views/reps/show.ejs",
+		"/home/gabriel/Documents/Baldochi Final/models/reviews.js",
+		"/home/gabriel/Documents/Baldochi Final/views/feed.css",
+		"/home/gabriel/Documents/Baldochi Final/views/addreview.ejs",
+		"/home/gabriel/Documents/Baldochi Final/models/beer.js",
+		"/home/gabriel/Documents/Baldochi Final/middleware/index.js",
+		"/home/gabriel/Documents/yelprep/routes/comments.js",
+		"/home/gabriel/Documents/Baldochi Final/models/beerFactor.js",
+		"/home/gabriel/Documents/yelprep/routes/reps.js",
+		"/home/gabriel/Documents/Baldochi Final/views/checkin.ejs",
+		"/home/gabriel/Documents/Baldochi Final/views/login.ejs",
+		"/home/gabriel/Documents/Baldochi Final/views/partials/footer.ejs",
+		"/home/gabriel/Documents/yelprep/views/partials/footer.ejs",
+		"/home/gabriel/Documents/yelprep/middleware/index.js",
+		"/home/gabriel/Documents/yelprep/models/comment.js",
+		"/home/gabriel/Documents/yelprep/models/user.js",
+		"/home/gabriel/Documents/yelprep/models/rep.js",
+		"/home/gabriel/Documents/yelprep/views/partials/header.ejs",
+		"/home/gabriel/Documents/Baldochi Final/views/register.ejs",
+		"/home/gabriel/Documents/yelprep/views/users/login.ejs",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/model/User.py",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/templates/view/cryptocoin/index.html",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/web/src/app/profile/profile.component.html",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/web/src/app/profile/profile.component.ts",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/web/src/app/services/user.service.ts",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/api/app.js",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/api/routes/indexroutes.js",
+		"/home/gabriel/Desktop/test.py",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/web/package.json",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/app.js",
+		"/home/gabriel/Documents/UNIFEI/com212/back/routes/indexroutes.js",
+		"/home/gabriel/Documents/UNIFEI/com212/back/app.js",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/views/partials/header.ejs",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/public/stylesheets/app.css",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/views/profile.ejs",
+		"/home/gabriel/Documents/Baldochi Final/public/stylesheets/landing.css",
+		"/home/gabriel/Documents/yelprep/views/landing.ejs",
+		"/home/gabriel/Documents/Python3 DevCamp/DS/lists.py",
+		"/home/gabriel/Documents/Python3 DevCamp/DS/dictionaries.py",
+		"/home/gabriel/Documents/a.cpp",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Minicurso MQTT/Códigos/subscriber.py",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/controller/DashboardController.py",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/controller/UserController.py",
+		"/home/gabriel/Documents/UNIFEI/COM242-SD/Trabalho Final/model/Cryptocoin.py",
+		"/home/gabriel/Desktop/a.cpp",
+		"/home/gabriel/Documents/Trabalho Final de Graduação/README.md",
+		"/home/gabriel/Desktop/louco.cpp",
+		"/home/gabriel/Desktop/pdi",
+		"/home/gabriel/Desktop/Materiais TFG/teste.py",
+		"/home/gabriel/Desktop/Materiais TFG/embedding.py",
+		"/home/gabriel/Desktop/heapsort.cpp",
+		"/home/gabriel/Documents/dp.cpp",
+		"/home/gabriel/Documents/Python3 DevCamp/Functions/colors.py",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/dp.cpp",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/a.cpp",
+		"/home/gabriel/Desktop/si.py",
+		"/home/gabriel/Documents/Python3 DevCamp/DS/nestedlists.py",
+		"/home/gabriel/Documents/Python3 DevCamp/DS/comprehensions.py",
+		"/home/gabriel/Desktop/s.py",
+		"/home/gabriel/Desktop/b.cpp",
+		"/home/gabriel/Desktop/c.cpp",
+		"/home/gabriel/Documents/Python3 DevCamp/Iterators and Generators/iterable.py",
+		"/home/gabriel/Documents/UNIFEI/Sistemas Distribuidos/Códigos/Python/publisherAutomaticoCriptomoedas.py",
+		"/home/gabriel/Documents/Python3 DevCamp/Decorators/decorator.py",
+		"/home/gabriel/Documents/Python3 DevCamp/Decorators/highorderfunctions.py",
+		"/home/gabriel/Documents/Python3 DevCamp/Iterators and Generators/generators.py",
+		"/home/gabriel/Desktop/reuniaoNeAD",
+		"/var/www/index.php",
+		"/var/www/html/ch05_guitar_shop/model/database.php",
+		"/var/www/html/ch05_guitar_shop/model/product_db.php",
+		"/home/gabriel/Desktop/blabla.cpp",
+		"/home/gabriel/Documents/UNIFEI/Sistemas Distribuidos/Códigos/publiserAutomaticoCriptomoedas.py",
+		"/home/gabriel/Documents/UNIFEI/Sistemas Distribuidos/Códigos/mqttAutoPublish.py",
+		"/home/gabriel/Documents/UNIFEI/Sistemas Distribuidos/Códigos/mqttFirst.py",
+		"/home/gabriel/Documents/UNIFEI/Sistemas Distribuidos/README.md",
+		"/home/gabriel/Documents/UNIFEI/Sistemas Distribuidos/Códigos/mqttSecond.py",
+		"/home/gabriel/Documents/Python3 DevCamp/Webscrapping/firstScrap.py",
+		"/home/gabriel/Documents/Python3 DevCamp/Webscrapping/scrapproject.py",
+		"/home/gabriel/Documents/Python3 DevCamp/Webscrapping/crowler_framework.py",
+		"/home/gabriel/Documents/Python3 DevCamp/OOP/rpg.py",
+		"/home/gabriel/Documents/UNIFEI/Sistemas Distribuidos/Códigos/kivy-material-ui-master/setup.py",
+		"/home/gabriel/Desktop/Exercicio1_Aula7_33592/LeiaMe.md",
+		"/home/gabriel/Desktop/corvo.cpp",
+		"/home/gabriel/Downloads/main.c",
+		"/home/gabriel/Desktop/NEWRIEL",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/models/c2c.js",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/middlewares/index.js",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/views/signup.ejs",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/routes/indexroutes.js",
+		"/home/gabriel/Desktop/pilha.cpp",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/views/login.ejs",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/views/landing.ejs",
+		"/home/gabriel/Documents/yelprep/views/reps/edit.ejs",
+		"/home/gabriel/Documents/UNIFEI/Desenvolvimento Web Baldochi/Exercicio_1_Aula_6/LeiaMe.md",
+		"/home/gabriel/Documents/UNIFEI/Desenvolvimento Web Baldochi/Atividadeaula3_33592.js",
+		"/home/gabriel/Documents/UNIFEI/Desenvolvimento Web Baldochi/convert.js",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/models/user.js",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/views/partials/footer.ejs",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/views/proposal.ejs",
+		"/home/gabriel/Documents/UNIFEI/Sistemas Distribuidos/Tutorial de Instalação/tutorial.tex",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/ExemploSimples.py",
+		"/home/gabriel/Documents/UNIFEI/Gerencia de Projetos/Registrychain/package-lock.json",
+		"/home/gabriel/Documents/sublime_text_3/sublime_text",
+		"/home/gabriel/Documents/UNIFEI/Desenvolvimento Web Baldochi/AtividadeAula5_33592.html"
+	],
+	"find":
+	{
+		"height": 25.0
+	},
+	"find_in_files":
+	{
+		"height": 508.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 172.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "app.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"show",
+				"views/reps/show.ejs"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 238.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

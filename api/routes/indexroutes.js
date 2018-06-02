@@ -2,14 +2,48 @@ var express  = require("express");
 var router   = express.Router();
 var User     = require("../models/user");
 var C2C		 = require("../models/C2C");
+var CEV 	 = require("../models/CEV");
 var util = require('util');
-
-const BigchainDB = require('bigchaindb-driver');
+var cripto = require("crypto");
+const driver = require('bigchaindb-driver');
 const bip39 = require('bip39');
 
 
-router.post("/c2c", (req, res) => {
-	User.findOne({ cpf: req.body.counterpart }, (err, doc) => {
+function postBigchain() {
+	const API_PATH = 'https://test.bigchaindb.com/api/v1/'
+
+	const alice = new driver.Ed25519Keypair()
+
+	const tx = driver.Transaction.makeCreateTransaction(
+	    { city: 'Berlin, DE', temperature: 22, datetime: new Date().toString() },
+
+	    { what: 'My first BigchainDB transaction' },
+
+	    [ driver.Transaction.makeOutput(
+	            driver.Transaction.makeEd25519Condition(alice.publicKey))
+	    ],
+	    alice.publicKey
+	)
+
+	const txSigned = driver.Transaction.signTransaction(tx, alice.privateKey)
+
+	const conn = new driver.Connection(API_PATH);
+
+	//Line 33 says that postTransactionCommit does not exists and only God knows why
+	conn.postTransactionCommit(txSigned)
+	    .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
+
+}
+
+
+const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', { 
+    app_id: '20088fc5',
+    app_key: 'c352512f9ce8c7c3d8af841555d1684c'
+});
+
+router.post("/contracts/c2c", (req, res) => {
+	// counterpart identifier should actually be the pubkey, not cpf
+	User.findOne({ pubkey: req.body.counterpart }, (err, doc) => {
 		if(err) return res.status(500).send();
 		if(!doc) return res.status(404).send();
 		C2C.create({
@@ -29,8 +63,29 @@ router.post("/c2c", (req, res) => {
 	});
 });
 
+router.post("/contracts/cev", (rq, rs) => {
+	User.finOne({ pubkey : req.body.counterpart }, (err, usr) => {
+		if(err) return res.status(500).send();
+		if(!usr) return res.status(404).send();
+		CEV.create({
+			buyer      : req.body.userRole == 'buyer' ? req.body.userId : usr._id,
+			seller     : req.body.userRole == 'seller' ? req.body.userId : usr._id,
+			firstOk    : req.body.firstOk,
+			secondOk   : req.body.secondOk,
+			item       : req.body.item,
+			value      : req.body.value,
+			payMethod  : req.body.payMethod,
+			description: req.body.description,
+			status     : req.body.status
+		}, (err, c) => {
+			if(err) return;
+			res.send(c);
+		});
+	});
+});
+
 router.post("/register", (req, res) => {
-	const usrK = new BigchainDB.Ed25519Keypair(bip39.mnemonicToSeed('seedPhrase').slice(0,32));
+	const usrK = new driver.Ed25519Keypair();
 	User.findOne({'username': req.body.user.username}, (err, user) => {
 		if(err) return res.status(500).send();
 		if(user) return res.status(403).send('Username already in use');
@@ -41,7 +96,6 @@ router.post("/register", (req, res) => {
 	});
 });
 
-//TBA
 router.post("/login", (req, res) => {
 	User.findOne({
 		'username': req.body.username,
@@ -62,7 +116,7 @@ router.get("/user/:username", (req, res) => {
 	})
 })
 
-router.get("/contracts/:status/:userId", (req, res) => {
+router.get("/contracts/c2c/:status/:userId", (req, res) => {
 	C2C.find({
 		'hirer': req.params.userId,
 		'status': req.params.status
@@ -80,7 +134,43 @@ router.get("/contracts/:status/:userId", (req, res) => {
 	});
 });
 
-router.put("/c2c", (req, res) => {
+router.get("/contracts/cev/:status:userId", (req, res) => {
+	CEV.find({
+		'buyer' : req.params.userId,
+		'status': req.params.status
+	}, (err, docs) => {
+		if(docs){
+			return CEV.find({
+				'seller': req.params.userId,
+				'status': req.params.status
+			}, (err, docs2) => {
+				if(docs2) return res.json([...docs, ...docs2]);
+				res.status(500).send();
+			});
+		}
+		res.status(500).send();
+	});
+});
+
+//Render a contract that is on the bigchain
+router.get("/contracs/show/:type/:id", (req, res) => {
+	if(req.params.type == 'cev'){
+		CEV.findById(req.params.id, function(err, c){
+			if(err) res.status(500).send();
+			if(!c) res.status(404).send();
+			res.send(c);
+		});
+	}
+	else if(req.params.type == 'c2c'){
+		C2C.findById(req.params.id, function(err, c){
+			if(err) res.status(500).send();
+			if(!c) res.status(404).send();
+			res.send(c);
+		});	
+	}
+});
+
+router.put("/contracts/c2c", (req, res) => {
 	C2C.findByIdAndUpdate(req.body._id, {
 		'hirer': req.body.hirer,
 		'hired': req.body.hired,
@@ -92,10 +182,36 @@ router.put("/c2c", (req, res) => {
 	res.status(200).send();
 });
 
-router.delete("/c2c/:id", (req, res) => {
+
+//Using put to update status'es
+router.put("/contracts/cev", (req, res) => {
+	CEV.findByIdAndUpdate(req.body._id, {
+			'buyer'      : req.body.userRole == 'buyer' ? req.body.userId : usr._id,
+			'seller'     : req.body.userRole == 'seller' ? req.body.userId : usr._id,
+			'firstOk'    : req.body.firstOk,
+			'secondOk'   : req.body.secondOk,
+			'item'       : req.body.item,
+			'value'      : req.body.value,
+			'payMethod'  : req.body.payMethod,
+			'description': req.body.description,
+			'status'     : req.body.status
+	});
+	res.status(200).send()
+})
+
+router.delete("/contracts/c2c/:id", (req, res) => {
 	C2C.findOneAndRemove({_id: req.params.id}, (err) => {
 		if(!err) console.log('done');
 	});
 	res.status(200).send();
+});
+
+router.delete("/contracts/cev/:id", (req, res) => {
+	CEV.findOneAndRemove({_id:req.params.id}, (err) => {
+		if(!err) console.log('removed');
+	});
+	res.status(200).send();
 })
+
+
 module.exports = router;

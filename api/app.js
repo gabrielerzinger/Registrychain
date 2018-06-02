@@ -5,6 +5,7 @@ var bodyParser     = require("body-parser"),
     methodOverride = require("method-override"),
     indexRoutes    = require("./routes/indexroutes"),
     cors           = require('cors');
+    
 
 
 //App+express setup
@@ -18,9 +19,10 @@ app.locals.moment = require('moment');
 
 //Connect and seed the database
 mongoose.connect(process.env.DATABASEURL||'mongodb://localhost/RegistryChain');
-//seedDB();
+
 
 app.use(indexRoutes);
+//TBA: REST routing from diff files
 
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("Started...");
