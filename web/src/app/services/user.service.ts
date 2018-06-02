@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import  QRCode from 'qrcode';
 
+import { User } from '../models';
+
 const httpOptions = {
     headers: new HttpHeaders({
         'Content-Type':  'application/json'
@@ -14,23 +16,8 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class UserService {
-    public user: {
-        _id?: string,
-        username: string,
-        cpf: string,
-        name: string,
-        email: string,
-        rg?: string,
-        address?: string,
-        lat?: number,
-        lng?: number,
-        pubkey: string,
-        password: string,
-        pubkeyurl?: string
-    };
-    public userSubject: ReplaySubject<any> = new ReplaySubject<any>(1);
-
-
+    public user: User;
+    public userSubject: ReplaySubject<User> = new ReplaySubject<User>(1);
 
     constructor(public http: HttpClient, public router: Router) {
         if(localStorage.getItem('username')){
@@ -42,7 +29,7 @@ export class UserService {
         return Observable.create(o => {
             this.http.get('http://localhost:3000/user/'+username, httpOptions).subscribe(u => {
                 if(u){
-                    this.user = JSON.parse(JSON.stringify(u));
+                    this.user = new User(JSON.parse(JSON.stringify(u)));
                     QRCode.toDataURL(this.user.pubkey?this.user.pubkey:' ').then(url => {
                         this.user.pubkeyurl = url;
                         this.userSubject.next(this.user);
@@ -51,8 +38,8 @@ export class UserService {
                         this.router.navigate(['/']);
                     });
                 }
-                else o.err();
-            });
+                else o.error();
+            }, (err) => o.error(err));
         });
     }
 
@@ -60,7 +47,7 @@ export class UserService {
         return Observable.create(o => {
             this.http.post('http://localhost:3000/register', {user: user}, httpOptions).subscribe(u => {
                 if(u){
-                    this.user = JSON.parse(JSON.stringify(u));
+                    this.user = new User(JSON.parse(JSON.stringify(u)));
                     QRCode.toDataURL(this.user.pubkey?this.user.pubkey:' ').then(url => {
                         this.user.pubkeyurl = url;
                         this.userSubject.next(this.user);
@@ -69,8 +56,8 @@ export class UserService {
                         this.router.navigate(['/']);
                     });
                 }
-                else o.err();
-            });
+                else o.error();
+            }, (err) => o.error(err));
         });
     }
 
@@ -81,7 +68,7 @@ export class UserService {
                 password: password
             }, httpOptions).subscribe(u => {
                 if(u){
-                    this.user = JSON.parse(JSON.stringify(u));
+                    this.user = new User(JSON.parse(JSON.stringify(u)));
                     QRCode.toDataURL(this.user.pubkey?this.user.pubkey:' ').then(url => {
                         this.user.pubkeyurl = url;
                         this.userSubject.next(this.user);
@@ -91,8 +78,8 @@ export class UserService {
                         this.router.navigate(['/']);
                     });
                 }
-                else o.err();
-            });
+                else o.error();
+            }, (err) => o.error());
         });
     }
 
