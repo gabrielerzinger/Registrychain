@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToasterService, Toaster, ToasterConfig } from 'angular2-toaster';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+    title = 'app';
+    public config: ToasterConfig = new ToasterConfig({
+        positionClass: 'toast-bottom-right',
+        timeout: 5000,
+        mouseoverTimerStop: true
+    });
+    constructor(public toasterService: ToasterService){}
 }
