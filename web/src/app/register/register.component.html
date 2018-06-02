@@ -1,25 +1,49 @@
 <div class="container-fluid blured">
     <div class="panel panel-body centered">
+        <div class="text-center pb-5">
+            <h3>Registre-se</h3>
+            <small>Leva só um minuto.</small>
+        </div>
 		<form (ngSubmit)="onSubmit()" #regForm="ngForm">
-            <div class="form-group">
-                <input type="text" name="name" placeholder="Nome" class="form-control" [(ngModel)]="user.name">
+            <div class="form-group row">
+                <label for="name" class="col-sm-3 col-form-label">Nome</label>
+                <div class="col-sm-9">
+                    <input type="text" id="name" name="name" placeholder="Nome" class="form-control" [(ngModel)]="user.name" required>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" name="cpf" placeholder="CPF" class="form-control" [(ngModel)]="user.cpf">
+            <div class="form-group row">
+                <label for="cpf" class="col-sm-3 col-form-label">CPF</label>
+                <div class="col-sm-9">
+                    <input type="text" id="cpf" name="cpf" placeholder="CPF" class="form-control" [(ngModel)]="user.cpf" required>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" name="rg" placeholder="RG" class="form-control" [(ngModel)]="user.rg">
+            <div class="form-group row">
+                <label for="rg" class="col-sm-3 col-form-label">RG</label>
+                <div class="col-sm-9">
+                    <input type="text" id="rg" name="rg" placeholder="RG" class="form-control" [(ngModel)]="user.rg" required>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" name="email" placeholder="Email" class="form-control" [(ngModel)]="user.email">
+            <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-9">
+                    <input type="text" id="email" name="email" placeholder="Email" class="form-control" [(ngModel)]="user.email" required>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" name="address" placeholder="Endereço" class="form-control" [(ngModel)]="user.address">
+            <div class="form-group row">
+                <label for="address" class="col-sm-3 col-form-label">Endereço</label>
+                <div class="col-sm-9">
+                    <input type="text" id="address" name="address" placeholder="Endereço" class="form-control" [(ngModel)]="user.address" required>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="password" name="password" placeholder="Senha" class="form-control" [(ngModel)]="user.password">
+            <div class="form-group row">
+                <label for="password" class="col-sm-3 col-form-label">Senha</label>
+                <div class="col-sm-9">
+                    <input type="password" id="password" name="password" placeholder="Senha" class="form-control" [(ngModel)]="password" required>
+                </div>
             </div>
-            <button type="submit" class="btn btn-outline-primary">Registrar</button>
+            <div class="text-right pt-3">
+                <button type="submit" class="btn btn-outline-primary">Registrar</button>
+            </div>
 		</form>
 	</div>
 </div>

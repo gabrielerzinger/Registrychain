@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ToasterService, Toaster } from 'angular2-toaster';
 
+import { User } from '../models';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -8,35 +11,43 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-    public user: {
-        username: string,
-        cpf: string,
-        name: string,
-        email: string,
-        rg?: string,
-        address?: string,
-        lat?: number,
-        lng?: number,
-        pubkey: string,
-        password: string
-    } = {
-        username: '',
-        cpf: '',
-        name: '',
-        email: '',
-        rg: '',
-        address: '',
-        pubkey: '',
-        password: ''
-    };
+    public user: User = new User();
+    public password: string = '';
 
-    constructor(public userService: UserService) { }
+    @ViewChild('regForm') regForm: NgForm;
+    constructor(public userService: UserService, public toasterService: ToasterService) {
+    }
 
     ngOnInit() {
     }
 
     onSubmit(){
-        this.user.username = this.user.cpf;
-        this.userService.register(this.user).subscribe();
+        // check validity
+        if(this.regForm.valid) {
+            this.user.username = this.user.cpf;
+            this.userService.register(Object.assign({password: this.password}, this.user)).subscribe((user) => {
+                let toast: Toast = {
+                    type: 'success',
+                    title: 'Sucesso!',
+                    body: 'Cadastro efetuado!'
+                };
+                this.toasterService.pop(toast);
+            }, (err) => {
+                let toast: Toast = {
+                    type: 'error',
+                    title: 'Ops!',
+                    body: 'Você já está registrado!'
+                };
+                this.toasterService.pop(toast);
+            });
+        }
+        else {
+            let toast: Toast = {
+                type: 'error',
+                title: 'Ops!',
+                body: 'Por favor, preencha todos os campos!'
+            };
+            this.toasterService.pop(toast);
+        }
     }
 }
