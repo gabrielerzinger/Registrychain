@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToasterService, Toaster } from 'angular2-toaster';
+import { ToasterService, Toast } from 'angular2-toaster';
 
 import { UserService } from '../services/user.service';
 
@@ -12,7 +12,7 @@ import { UserService } from '../services/user.service';
 })
 export class LoginComponent implements OnInit {
 
-    public username: string;
+    public pubkey: string;
     public password: string;
     @ViewChild('loginForm') loginForm: NgForm;
 
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     onSubmit(){
         // check validity
         if(this.loginForm.valid) {
-            this.userService.login(this.username, this.password).subscribe((user) => {
+            this.userService.login(this.pubkey, this.password).subscribe((user) => {
                 this.router.navigate(['/']);
             }, () => {
                 let toast: Toast = {

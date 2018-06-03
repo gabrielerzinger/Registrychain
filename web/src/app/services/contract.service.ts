@@ -11,7 +11,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ContractService {
-    
+
     public myContractsSubject = new ReplaySubject<any>(1);
     public pendingContractsSubject = new ReplaySubject<any>(1);
 
@@ -19,7 +19,7 @@ export class ContractService {
 
     send(contract: any){
         return Observable.create(o => {
-            this.http.post('http://localhost:3000/c2c', contract, httpOptions).subscribe(c => {
+            this.http.post('http://localhost:3000/contracts/c2c', contract, httpOptions).subscribe(c => {
                 if(c) {
                     o.next(c);
                     o.complete();
@@ -32,8 +32,7 @@ export class ContractService {
 
     getMyContracts(user: any) {
         return Observable.create(o => {
-            console.log('getting '+user.userId);
-            this.http.get('http://localhost:3000/contracts/celebrated/'+user._id, httpOptions).subscribe(c => {
+            this.http.get('http://localhost:3000/contracts/c2c/celebrated/'+user._id, httpOptions).subscribe(c => {
                 if(c) {
                     o.next(c);
                     o.complete();
@@ -46,8 +45,7 @@ export class ContractService {
 
     getPendingContracts(user: any) {
         return Observable.create(o => {
-            console.log('getting '+user.userId);
-            this.http.get('http://localhost:3000/contracts/pending/'+user._id, httpOptions).subscribe(c =>  {
+            this.http.get('http://localhost:3000/contracts/c2c/pending/'+user._id, httpOptions).subscribe(c =>  {
                 if(c) {
                     o.next(c);
                     o.complete();
@@ -59,14 +57,13 @@ export class ContractService {
     }
 
     accept(contract: any){
-        this.http.put('http://localhost:3000/c2c', contract, httpOptions).subscribe(c => {
-            console.log('done!');
+        this.http.put('http://localhost:3000/contracts/c2c', contract, httpOptions).subscribe(c => {
+
         });
     }
 
     refuse(contract: any) {
-        this.http.delete('http://localhost:3000/c2c/'+contract._id, httpOptions).subscribe(c => {
-            console.log('done!');
+        this.http.delete('http://localhost:3000/contracts/c2c/'+contract._id, httpOptions).subscribe(c => {
         })
     }
 }

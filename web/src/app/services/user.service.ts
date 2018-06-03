@@ -20,22 +20,23 @@ export class UserService {
     public userSubject: ReplaySubject<User> = new ReplaySubject<User>(1);
 
     constructor(public http: HttpClient, public router: Router) {
-        if(localStorage.getItem('username')){
-            this.getUser(localStorage.getItem('username')).subscribe();
+        if(localStorage.getItem('pubkey')){
+            this.getUser(localStorage.getItem('pubkey')).subscribe(u => {
+                this.userSubject.next(this.user);
+                router.navigate(['/']);
+            });
         }
     }
 
-    getUser(username: string): Observable<any> {
+    getUser(pubkey: string): Observable<any> {
         return Observable.create(o => {
-            this.http.get('http://localhost:3000/user/'+username, httpOptions).subscribe(u => {
+            this.http.get('http://localhost:3000/user/'+pubkey, httpOptions).subscribe(u => {
                 if(u){
                     this.user = new User(JSON.parse(JSON.stringify(u)));
-                    QRCode.toDataURL(this.user.pubkey?this.user.pubkey:' ').then(url => {
+                    QRCode.toDataURL(this.user.pubkey).then(url => {
                         this.user.pubkeyurl = url;
-                        this.userSubject.next(this.user);
                         o.next(this.user);
                         o.complete();
-                        this.router.navigate(['/']);
                     });
                 }
                 else o.error();
@@ -48,12 +49,11 @@ export class UserService {
             this.http.post('http://localhost:3000/register', {user: user}, httpOptions).subscribe(u => {
                 if(u){
                     this.user = new User(JSON.parse(JSON.stringify(u)));
-                    QRCode.toDataURL(this.user.pubkey?this.user.pubkey:' ').then(url => {
+                    QRCode.toDataURL(this.user.pubkey).then(url => {
                         this.user.pubkeyurl = url;
                         this.userSubject.next(this.user);
                         o.next(this.user);
                         o.complete();
-                        this.router.navigate(['/']);
                     });
                 }
                 else o.error();
@@ -61,18 +61,18 @@ export class UserService {
         });
     }
 
-    login(username: string, password: string): Observable<any> {
+    login(pubkey: string, password: string): Observable<any> {
         return Observable.create(o => {
             this.http.post('http://localhost:3000/login', {
-                username: username,
+                pubkey: pubkey,
                 password: password
             }, httpOptions).subscribe(u => {
                 if(u){
                     this.user = new User(JSON.parse(JSON.stringify(u)));
-                    QRCode.toDataURL(this.user.pubkey?this.user.pubkey:' ').then(url => {
+                    QRCode.toDataURL(this.user.pubkey).then(url => {
                         this.user.pubkeyurl = url;
                         this.userSubject.next(this.user);
-                        localStorage.setItem('username', this.user.username);
+                        localStorage.setItem('pubkey', this.user.pubkey);
                         o.next(this.user);
                         o.complete();
                         this.router.navigate(['/']);
@@ -85,7 +85,7 @@ export class UserService {
 
     logout() {
         this.user = null;
-        localStorage.removeItem('username');
+        localStorage.removeItem('pubkey');
         this.userSubject.next(null);
         this.router.navigate(['/']);
     }

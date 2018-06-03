@@ -5,7 +5,7 @@ var bodyParser     = require("body-parser"),
     methodOverride = require("method-override"),
     indexRoutes    = require("./routes/indexroutes"),
     cors           = require('cors');
-    
+
 
 const driver = require('bigchaindb-driver');
 const bip39 = require('bip39');
@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 app.locals.moment = require('moment');
-	
-	
+
+
 
 
 //Connect and seed the database
@@ -35,5 +35,5 @@ app.listen(process.env.PORT, process.env.IP, function(){
 
 app.listen(3000, function(){
 	console.log('Listening..');
-	postBigchain();
+	//postBigchain();
 });

@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToasterModule } from 'angular2-toaster';
-import { TabsModule, ModalModule } from 'ngx-bootstrap';
+import { TabsModule, ModalModule, BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
@@ -34,9 +34,10 @@ const appRoutes: Routes = [
         FormsModule,
         RouterModule.forRoot(appRoutes),
         HttpClientModule,
+        BrowserAnimationsModule,
         TabsModule.forRoot(),
         ModalModule.forRoot(),
-        BrowserAnimationsModule,
+        BsDropdownModule.forRoot(),
         ToasterModule.forRoot()
     ],
     declarations: [

@@ -1,34 +1,36 @@
 <div class="container">
     <div class="row mx-0 mt-5">
-        <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 col-xs-12 pt-5">
-            <div *ngIf="success != undefined" class="alert alert-dismissible fade show" [class.alert-success]="success" [class.alert-danger]="!success">
-                {{success? "Sucesso!" : "Algo deu errado!" }}
-                <button type="button" class="close" (click)="closeAlert()">
-                    <span>&times;</span>
-                </button>
+        <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 col-xs-12 p-3 card">
+            <div class="card-body">
+                <h4 class="mb-4">Contrato - Pessoa Física</h4>
+            	<form (ngSubmit)="onSubmit()" #c2cForm="ngForm" *ngIf="!success">
+            		<div class="form-group row">
+                        <label for="userRole" class="col-sm-3 col-form-label">Você é:</label>
+                        <div class="col-sm-9">
+                            <select id="userRole" class="form-control" [(ngModel)]="userRole" name="userRole">
+                                <option value="hirer" selected>Contratante</option>
+                                <option value="hired">Contratado</option>
+                            </select>
+                        </div>
+            		</div>
+            		<div class="form-group row">
+            			<label for="counterpartkey" class="col-sm-3 col-form-label">Contraparte:</label>
+            			<div class="col-sm-9 input-group">
+                            <input id="counterpartkey" type="text" class="form-control" name="counterpartkey" placeholder="Chave Pública" [(ngModel)]="counterpartkey" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" (click)="getCounterpart()">Buscar</button>
+                            </div>
+                        </div>
+            		</div>
+                    <div *ngIf="counterpart">
+                		<div class="form-group">
+                			<label for="descricao">Descrição do contrato</label>
+                			<textarea class="form-control" name="description" rows="5" [(ngModel)]="description"></textarea>
+                		</div>
+                		<button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+            	</form>
             </div>
-        	<form (ngSubmit)="onSubmit()" #c2cForm="ngForm" *ngIf="!success">
-        		<div class="form-group">
-        			<p>Você é:</p>
-        			<div class="form-check">
-        				<input class="form-check-input" type="radio" name="check" value="hirer" checked [(ngModel)]="userRole">
-        				<label class="form-check-label">Contratante</label>
-        			</div>
-        			<div class="form-check">
-        				<input class="form-check-input" type="radio" name="check" value="hired" [(ngModel)]="userRole">
-        				<label class="form-check-label">Contratando</label>
-        			</div>
-        		</div>
-        		<div class="form-group">
-        			<label>CPF Contraparte</label>
-        			<input type="text" class="form-control" name="counterpart" placeholder="CPF" [(ngModel)]="counterpart">
-        		</div>
-        		<div class="form-group">
-        			<label for="descricao">Descrição do contrato</label>
-        			<textarea class="form-control" name="description" rows="5" [(ngModel)]="description"></textarea>
-        		</div>
-        		<button type="submit" class="btn btn-primary">Enviar</button>
-        	</form>
         </div>
     </div>
 </div>

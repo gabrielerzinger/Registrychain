@@ -9,7 +9,7 @@ const driver = require('bigchaindb-driver');
 const bip39 = require('bip39');
 
 
-const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', { 
+const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', {
 	    app_id: '20088fc5',
 	    app_key: 'c352512f9ce8c7c3d8af841555d1684c'
 });
@@ -34,7 +34,7 @@ function postBigchain(userpub, userpriv, contract) {
 
 router.post("/contracts/c2c", (req, res) => {
 	// counterpart identifier should actually be the pubkey, not cpf
-	User.findOne({ cpf: req.body.counterpart }, (err, doc) => {
+	User.findOne({ pubkey: req.body.counterpart }, (err, doc) => {
 		if(err) return res.status(500).send();
 		if(!doc) return res.status(404).send();
 		C2C.create({
@@ -49,7 +49,7 @@ router.post("/contracts/c2c", (req, res) => {
 				console.log('error:', err);
 				return;
 			}
-			postBigchain();
+			//postBigchain();
 			res.send(c);
 		});
 	});
@@ -81,6 +81,7 @@ router.post("/register", (req, res) => {
 	User.findOne({'username': req.body.user.username}, (err, user) => {
 		if(err) return res.status(500).send();
 		if(user) return res.status(403).send('Username already in use');
+		delete req.body.user._id;
 		User.create(Object.assign(req.body.user, {pubkey: usrK.publicKey}), (err, u) => {
 			if(err) return res.status(500).send();
 			res.status(201).json(u);
@@ -90,7 +91,7 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
 	User.findOne({
-		'username': req.body.username,
+		'pubkey': req.body.pubkey,
 		'password': req.body.password
 	}, (err, user) => {
 		if(err) return res.status(402).send();
@@ -99,9 +100,9 @@ router.post("/login", (req, res) => {
 	});
 });
 
-router.get("/user/:username", (req, res) => {
+router.get("/user/:pubkey", (req, res) => {
 	User.findOne({
-		'username': req.params.username
+		'pubkey': req.params.pubkey
 	}, (err, user) => {
 		if(user) return res.json(user);
 		res.status(404).send();
@@ -158,7 +159,7 @@ router.get("/contracs/show/:type/:id", (req, res) => {
 			if(err) res.status(500).send();
 			if(!c) res.status(404).send();
 			res.send(c);
-		});	
+		});
 	}
 });
 

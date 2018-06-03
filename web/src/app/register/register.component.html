@@ -47,3 +47,27 @@
 		</form>
 	</div>
 </div>
+
+<div class="modal fade" bsModal #keyModal="bs-modal" tabindex="-1" [config]="{backdrop: 'static'}">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title pull-left">Obrigado por se registrar!</h4>
+			</div>
+			<div class="modal-body">
+                <h5>Essa é sua Chave Pública.</h5>
+                <h6>Guarde-a bem, pois ela é necessária para efetuar o login.</h6>
+                <div class="text-center">
+                    <img id="qrcode" [src]="user.pubkeyurl">
+        		</div>
+                <p>Caso não tenha acesso a um leitor de QR Code, copie a chave abaixo:</p>
+                <div class="text-center">
+                    <samp>{{user.pubkey}}</samp>
+                </div>
+                <div class="text-center pt-3">
+                    <button class="btn btn-primary" (click)="keyModal.hide(); router.navigate(['/']);">Continuar</button>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>

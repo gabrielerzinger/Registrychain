@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { User } from '../models';
 import {UserService} from '../services/user.service';
 import {ContractService} from '../services/contract.service';
 
@@ -10,7 +11,7 @@ import {ContractService} from '../services/contract.service';
 })
 export class ProfileComponent implements OnInit {
 
-    public user;
+    public user: User;
     public myContracts;
     public pendingContracts;
     public selectedContract;
@@ -18,15 +19,12 @@ export class ProfileComponent implements OnInit {
     constructor(public userService: UserService, public contractService: ContractService) {
         userService.userSubject.subscribe(u => {
             this.user = u;
-            console.log('got user', u);
             if(u) {
                 contractService.getMyContracts(u).subscribe(c => {
                     this.myContracts = c;
-                    console.log(c);
                 });
                 contractService.getPendingContracts(u).subscribe(c => {
                     this.pendingContracts = c;
-                    console.log(c);
                 });
             }
         });
