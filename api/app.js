@@ -7,7 +7,8 @@ var bodyParser     = require("body-parser"),
     cors           = require('cors');
     
 
-
+const driver = require('bigchaindb-driver');
+const bip39 = require('bip39');
 //App+express setup
 var app = express();
 
@@ -16,6 +17,9 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 app.locals.moment = require('moment');
+	
+	
+
 
 //Connect and seed the database
 mongoose.connect(process.env.DATABASEURL||'mongodb://localhost/RegistryChain');
@@ -31,4 +35,5 @@ app.listen(process.env.PORT, process.env.IP, function(){
 
 app.listen(3000, function(){
 	console.log('Listening..');
+	postBigchain();
 });

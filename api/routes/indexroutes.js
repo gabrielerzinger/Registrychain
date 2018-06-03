@@ -9,41 +9,32 @@ const driver = require('bigchaindb-driver');
 const bip39 = require('bip39');
 
 
-function postBigchain() {
+const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', { 
+	    app_id: '20088fc5',
+	    app_key: 'c352512f9ce8c7c3d8af841555d1684c'
+});
+
+function postBigchain(userpub, userpriv, contract) {
 	const API_PATH = 'https://test.bigchaindb.com/api/v1/'
-
-	const alice = new driver.Ed25519Keypair()
-
 	const tx = driver.Transaction.makeCreateTransaction(
-	    { city: 'Berlin, DE', temperature: 22, datetime: new Date().toString() },
-
-	    { what: 'My first BigchainDB transaction' },
-
+		contract,
+		null,
 	    [ driver.Transaction.makeOutput(
-	            driver.Transaction.makeEd25519Condition(alice.publicKey))
+	            driver.Transaction.makeEd25519Condition(userpub))
 	    ],
-	    alice.publicKey
+	    userpub
 	)
-
-	const txSigned = driver.Transaction.signTransaction(tx, alice.privateKey)
-
-	const conn = new driver.Connection(API_PATH);
-
-	//Line 33 says that postTransactionCommit does not exists and only God knows why
+	const txSigned = driver.Transaction.signTransaction(tx, userpriv)
 	conn.postTransactionCommit(txSigned)
-	    .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
+	    .then(retrievedTx => console.log('Transaction ', retrievedTx.id, ' successfully posted.'))
 
 }
 
 
-const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', { 
-    app_id: '20088fc5',
-    app_key: 'c352512f9ce8c7c3d8af841555d1684c'
-});
 
 router.post("/contracts/c2c", (req, res) => {
 	// counterpart identifier should actually be the pubkey, not cpf
-	User.findOne({ pubkey: req.body.counterpart }, (err, doc) => {
+	User.findOne({ cpf: req.body.counterpart }, (err, doc) => {
 		if(err) return res.status(500).send();
 		if(!doc) return res.status(404).send();
 		C2C.create({
@@ -58,6 +49,7 @@ router.post("/contracts/c2c", (req, res) => {
 				console.log('error:', err);
 				return;
 			}
+			postBigchain();
 			res.send(c);
 		});
 	});
@@ -134,7 +126,7 @@ router.get("/contracts/c2c/:status/:userId", (req, res) => {
 	});
 });
 
-router.get("/contracts/cev/:status:userId", (req, res) => {
+router.get("/contracts/cev/:status/:userId", (req, res) => {
 	CEV.find({
 		'buyer' : req.params.userId,
 		'status': req.params.status
