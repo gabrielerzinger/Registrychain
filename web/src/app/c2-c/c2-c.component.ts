@@ -64,7 +64,7 @@ export class C2CComponent implements OnInit {
                     body: 'O contrato foi enviado para a contraparte analisar!'
                 };
                 this.toasterService.pop(toast);
-                this.router.navigate(['/'])';'
+                this.router.navigate(['/']);
             }
             else this.toasterService.pop(errToast);
         }, (err) => {
