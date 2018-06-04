@@ -6,7 +6,8 @@ var C2CSchema = new mongoose.Schema({
 	hirerOk: { type: Boolean },
 	hiredOk: { type: Boolean },
 	description: { type: String },
-	status: { type: String }
+	status: { type: String },
+	celebrationDate: { type: String }
 });
 
 module.exports = mongoose.model("C2C", C2CSchema);

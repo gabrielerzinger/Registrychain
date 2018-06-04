@@ -30,49 +30,18 @@ function postBigchain(userpub, userpriv, contract) {
 
 }
 
-
-
 router.post("/contracts/c2c", (req, res) => {
-	// counterpart identifier should actually be the pubkey, not cpf
-	User.findOne({ pubkey: req.body.counterpart }, (err, doc) => {
-		if(err) return res.status(500).send();
-		if(!doc) return res.status(404).send();
-		C2C.create({
-			hirer: req.body.userRole == 'hirer' ? req.body.userId : doc._id,
-			hired: req.body.userRole == 'hired' ? req.body.userId : doc._id,
-			hirerOk: req.body.hirerOk,
-			hiredOk: req.body.hiredOk,
-			description: req.body.description,
-			status: req.body.status
-		}, (err, c) => {
-			if(err) {
-				console.log('error:', err);
-				return;
-			}
-			//postBigchain();
-			res.send(c);
-		});
+	C2C.create(C2CF2M(req.body), (err, c) => {
+		if(err) res.status(500).send();
+		else res.status(200).send();
+		//postBigchain();
 	});
 });
 
-router.post("/contracts/cev", (rq, rs) => {
-	User.finOne({ pubkey : req.body.counterpart }, (err, usr) => {
-		if(err) return res.status(500).send();
-		if(!usr) return res.status(404).send();
-		CEV.create({
-			buyer      : req.body.userRole == 'buyer' ? req.body.userId : usr._id,
-			seller     : req.body.userRole == 'seller' ? req.body.userId : usr._id,
-			firstOk    : req.body.firstOk,
-			secondOk   : req.body.secondOk,
-			item       : req.body.item,
-			value      : req.body.value,
-			payMethod  : req.body.payMethod,
-			description: req.body.description,
-			status     : req.body.status
-		}, (err, c) => {
-			if(err) return;
-			res.send(c);
-		});
+router.post("/contracts/cev", (req, res) => {
+	CEV.create(CEVF2M(req.body), (err, c) => {
+		if(err) res.status(500).send();
+		else res.status(200).send();
 	});
 });
 
@@ -109,21 +78,61 @@ router.get("/user/:pubkey", (req, res) => {
 	})
 })
 
+router.get("/contracts/:status/:userId", (req, res) => {
+	let c2c$ = new Promise((resolve, reject) => {
+		C2C.find({
+			'hirer': req.params.userId,
+			'status': req.params.status
+		}).populate('hirer').populate('hired').exec((err, docs) => {
+			if(err) return reject(err);
+			return C2C.find({
+				'hired': req.params.userId,
+				'status': req.params.status
+			}).populate('hirer').populate('hired').exec((err, docs2) => {
+				if(err) return reject(err);
+				docs2 = docs.concat(docs2).map(x => C2CM2F(x));
+				return resolve(docs2);
+			});
+		});
+	});
+	let cev$ = new Promise((resolve, reject) => {
+		CEV.find({
+			'buyer' : req.params.userId,
+			'status': req.params.status
+		}).populate('buyer').populate('seller').exec((err, docs) => {
+			if(err) return reject(err);
+			console.log('found: ',JSON.stringify(docs, undefined, 2));
+			return CEV.find({
+				'seller': req.params.userId,
+				'status': req.params.status
+			}).populate('buyer').populate('seller').exec((err, docs2) => {
+				if(err) return reject(err);
+				console.log('and: ', JSON.stringify(docs2, undefined, 2));
+				docs2 = docs.concat(docs2).map(x => CEVM2F(x));
+				return resolve(docs2);
+			});
+		});
+	});
+	Promise.all([c2c$, cev$]).then((docs) => {
+		console.log('here:',JSON.stringify(docs[1], undefined, 2));
+		res.json(docs[0].concat(docs[1]));
+	}, err => res.status(500).send());
+});
+
 router.get("/contracts/c2c/:status/:userId", (req, res) => {
 	C2C.find({
 		'hirer': req.params.userId,
 		'status': req.params.status
-	}, (err, docs) => {
-		if(docs) {
-			return C2C.find({
-				'hired': req.params.userId,
-				'status': req.params.status
-			}, (err, docs2) => {
-				if(docs2) return res.json([...docs, ...docs2]);
-				res.status(500).send();
-			});
-		}
-		res.status(500).send();
+	}).populate('hirer').populate('hired').exec((err, docs) => {
+		if(err) return res.status(500).send();
+		return C2C.find({
+			'hired': req.params.userId,
+			'status': req.params.status
+		}).populate('hirer').populate('hired').exec((err, docs2) => {
+			if(err) return res.status(500).send();
+			docs2 = docs.concat(docs2).map(x => C2CM2F(x));
+			return res.json(docs2);
+		});
 	});
 });
 
@@ -131,80 +140,143 @@ router.get("/contracts/cev/:status/:userId", (req, res) => {
 	CEV.find({
 		'buyer' : req.params.userId,
 		'status': req.params.status
-	}, (err, docs) => {
-		if(docs){
-			return CEV.find({
-				'seller': req.params.userId,
-				'status': req.params.status
-			}, (err, docs2) => {
-				if(docs2) return res.json([...docs, ...docs2]);
-				res.status(500).send();
-			});
-		}
-		res.status(500).send();
+	}).populate('buyer').populate('seller').exec((err, docs) => {
+		if(err) return res.status(500).send();
+		return CEV.find({
+			'seller': req.params.userId,
+			'status': req.params.status
+		}).populate('buyer').populate('seller').exec((err, docs2) => {
+			if(err) return res.status(500).send();
+			docs2 = docs.concat(docs).map(x => CEVM2F(x));
+			return res.json(docs2);
+		});
 	});
 });
 
 //Render a contract that is on the bigchain
 router.get("/contracs/show/:type/:id", (req, res) => {
 	if(req.params.type == 'cev'){
-		CEV.findById(req.params.id, function(err, c){
-			if(err) res.status(500).send();
-			if(!c) res.status(404).send();
-			res.send(c);
+		CEV.findById(req.params.id).populate('buyer').populate('seller').exec((err, x) => {
+			if(err) return res.status(500).send();
+			if(!x) return res.status(404).send();
+			return res.json(CEVM2F(x));
 		});
 	}
 	else if(req.params.type == 'c2c'){
-		C2C.findById(req.params.id, function(err, c){
-			if(err) res.status(500).send();
-			if(!c) res.status(404).send();
-			res.send(c);
+		C2C.findById(req.params.id).populate('hirer').populate('hired').exec((err, c) => {
+			if(err) return res.status(500).send();
+			if(!c) return res.status(404).send();
+			return res.json(C2CM2F(c));
 		});
 	}
 });
 
 router.put("/contracts/c2c", (req, res) => {
-	C2C.findByIdAndUpdate(req.body._id, {
-		'hirer': req.body.hirer,
-		'hired': req.body.hired,
-		'hirerOk': req.body.hirerOk,
-		'hiredOk': req.body.hiredOk,
-		'status': req.body.status,
-		'description': req.body.description
+	C2C.findByIdAndUpdate(req.body._id, C2CF2M(req.body), (err) => {
+		if(!err) res.status(200).send();
+		else res.status(500).send();
 	});
-	res.status(200).send();
 });
 
 
 //Using put to update status'es
 router.put("/contracts/cev", (req, res) => {
-	CEV.findByIdAndUpdate(req.body._id, {
-			'buyer'      : req.body.userRole == 'buyer' ? req.body.userId : usr._id,
-			'seller'     : req.body.userRole == 'seller' ? req.body.userId : usr._id,
-			'firstOk'    : req.body.firstOk,
-			'secondOk'   : req.body.secondOk,
-			'item'       : req.body.item,
-			'value'      : req.body.value,
-			'payMethod'  : req.body.payMethod,
-			'description': req.body.description,
-			'status'     : req.body.status
+	CEV.findByIdAndUpdate(req.body._id, CEVF2M(req.body), (err) => {
+		if(!err) res.status(200).send();
+		else res.status(500).send();
 	});
-	res.status(200).send()
 })
 
 router.delete("/contracts/c2c/:id", (req, res) => {
 	C2C.findOneAndRemove({_id: req.params.id}, (err) => {
-		if(!err) console.log('done');
+		if(!err) res.status(200).send();
+		else res.status(500).send();
 	});
-	res.status(200).send();
 });
 
 router.delete("/contracts/cev/:id", (req, res) => {
 	CEV.findOneAndRemove({_id:req.params.id}, (err) => {
-		if(!err) console.log('removed');
+		if(!err) res.status(200).send();
+		else res.status(500).send();
 	});
-	res.status(200).send();
 })
 
+//CEV Front to Mongo
+CEVF2M = (x) => {
+	let buyer = x['parties'].find(y => y.role == 'buyer');
+	let seller = x['parties'].find(y => y.role == 'seller');
+	return {
+		buyer: buyer['user']['_id'],
+		seller: seller['user']['_id'],
+		buyerOk: buyer['accepted'],
+		sellerOk: seller['accepted'],
+		item: x['item']['name'],
+		value: x['item']['value'],
+		paymentMethod: x['paymentMethod'],
+		description: x['description'],
+		status: x['status'],
+		celebrationDate: x['celebrationDate']
+   };
+}
+
+//CEV Mongo to Front
+CEVM2F = (x) => {
+	return {
+		_id: x._id,
+		parties: [{
+			user: x.buyer,
+			accepted: x.buyerOk,
+			role: 'buyer'
+		}, {
+			user: x.seller,
+			accepted: x.sellerOk,
+			role: 'seller'
+		}],
+		item: {
+			name: x.item,
+			value: x.value
+		},
+		paymentMethod: x.paymentMethod,
+		description: x.description,
+		status: x.status,
+		type: 'cev',
+		celebrationDate: x.celebrationDate
+	};
+}
+
+// C2C Front to Mongo
+C2CF2M = (x) => {
+	let hirer = x.parties.find(y => y.role == 'hirer');
+	let hired = x.parties.find(y => y.role == 'hired');
+	return {
+		hirer: hirer.user._id,
+		hired: hired.user._id,
+		hirerOk: hirer.accepted,
+		hiredOk: hired.accepted,
+		status: x.status,
+		description: x.description,
+		celebrationDate: x.celebrationDate
+	}
+}
+
+// C2C Mongo to Front
+C2CM2F = (x) => {
+	return {
+		_id: x._id,
+		parties: [{
+			user: x.hired,
+			accepted: x.hiredOk,
+			role: 'hired'
+		}, {
+			user: x.hirer,
+			accepted: x.hirerOk,
+			role: 'hirer'
+		}],
+		description: x.description,
+		status: x.status,
+		type: 'c2c',
+		celebrationDate: x.celebrationDate
+	};
+}
 
 module.exports = router;
