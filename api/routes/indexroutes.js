@@ -14,17 +14,20 @@ const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', {
 	    app_key: 'c352512f9ce8c7c3d8af841555d1684c'
 });
 
-function postBigchain(userpub, userpriv, contract) {
+const doll =  new driver.Ed25519Keypair();
+
+function postBigchain(contract) {
+	console.log('t');
 	const API_PATH = 'https://test.bigchaindb.com/api/v1/'
 	const tx = driver.Transaction.makeCreateTransaction(
 		contract,
 		null,
 	    [ driver.Transaction.makeOutput(
-	            driver.Transaction.makeEd25519Condition(userpub))
+	            driver.Transaction.makeEd25519Condition(doll.publicKey))
 	    ],
-	    userpub
+	    doll.publicKey
 	)
-	const txSigned = driver.Transaction.signTransaction(tx, userpriv)
+	const txSigned = driver.Transaction.signTransaction(tx, doll.privateKey)
 	conn.postTransactionCommit(txSigned)
 	    .then(retrievedTx => console.log('Transaction ', retrievedTx.id, ' successfully posted.'))
 
@@ -34,7 +37,7 @@ router.post("/contracts/c2c", (req, res) => {
 	C2C.create(C2CF2M(req.body), (err, c) => {
 		if(err) res.status(500).send();
 		else res.status(200).send();
-		//postBigchain();
+
 	});
 });
 
@@ -172,7 +175,8 @@ router.get("/contracs/show/:type/:id", (req, res) => {
 });
 
 router.put("/contracts/c2c", (req, res) => {
-	C2C.findByIdAndUpdate(req.body._id, C2CF2M(req.body), (err) => {
+	C2C.findByIdAndUpdate(req.body._id, C2CF2M(req.body), (err, c) => {
+		postBigchain(JSON.stringify(c, undefined, 2));
 		if(!err) res.status(200).send();
 		else res.status(500).send();
 	});
@@ -181,9 +185,11 @@ router.put("/contracts/c2c", (req, res) => {
 
 //Using put to update status'es
 router.put("/contracts/cev", (req, res) => {
-	CEV.findByIdAndUpdate(req.body._id, CEVF2M(req.body), (err) => {
+	CEV.findByIdAndUpdate(req.body._id, CEVF2M(req.body), (err, c) => {
+		postBigchain(JSON.stringify(c, undefined, 2));
 		if(!err) res.status(200).send();
 		else res.status(500).send();
+
 	});
 })
 
