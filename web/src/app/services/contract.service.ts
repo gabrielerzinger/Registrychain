@@ -21,6 +21,7 @@ export class ContractService {
     constructor(public http: HttpClient) { }
 
     send(contract: Contract){
+        console.log(contract);
         if(contract.type == 'c2c'){
             return Observable.create(o => {
                 this.http.post('http://localhost:3000/contracts/c2c', contract, httpOptions).subscribe(() => {

@@ -57,9 +57,10 @@ export class C2CComponent implements OnInit {
                 accepted: false
             }],
             description: this.description,
-            status: 'pending'
+            status: 'pending',
+            type: 'c2c'
         });
-        this.contractService.send(contract).subscribe((c) => {
+        this.contractService.send(contract).subscribe(() => {
             this.userRole = "hirer";
             delete this.counterpart;
             delete this.description;
