@@ -2,14 +2,14 @@
     <div class="row mx-0 mt-5">
         <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 col-xs-12 p-3 card">
             <div class="card-body">
-                <h4 class="mb-4">Contrato - Pessoa Física</h4>
-            	<form (ngSubmit)="onSubmit()" #c2cForm="ngForm" *ngIf="!success">
+                <h4 class="mb-4">Contrato - Compra &amp; Venda</h4>
+            	<form (ngSubmit)="onSubmit()" #cevForm="ngForm" *ngIf="!success">
             		<div class="form-group row">
                         <label for="userRole" class="col-sm-3 col-form-label">Você é:</label>
                         <div class="col-sm-9">
                             <select id="userRole" class="form-control" [(ngModel)]="userRole" name="userRole">
-                                <option value="hirer" selected>Contratante</option>
-                                <option value="hired">Contratado</option>
+                                <option value="buyer" selected>Comprador</option>
+                                <option value="seller">Vendedor</option>
                             </select>
                         </div>
             		</div>
@@ -25,8 +25,29 @@
                     <div *ngIf="counterpart" class="pt-3">
                         <div class="container text-justify card p-3">
                             <h5>Identificação das partes:</h5>
-                            <p><strong>Contratante: </strong> {{ userRole == 'hirer' ? user.name : counterpart.name }}</p>
-                            <p><strong>Contratada: </strong> {{ userRole == 'hired' ? user.name : counterpart.name }}</p>
+                            <p><strong>Comprador: </strong> {{ userRole == 'buyer' ? user.name : counterpart.name }}</p>
+                            <p><strong>Vendedor: </strong> {{ userRole == 'seller' ? user.name : counterpart.name }}</p>
+                            <div class="form-group row">
+                                <label for="item" class="col-sm-3 col-form-label"><strong>Bem:</strong></label>
+                                <div class="col-sm-9">
+                                    <input id="item" type="text" class="form-control" name="item" placeholder="Item" [(ngModel)]="item" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="value" class="col-sm-3 col-form-label"><strong>Valor do Bem:</strong></label>
+                                <div class="input-group col-sm-9">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">R$</span>
+                                    </div>
+                                    <input id="value" type="number" class="form-control" name="value" [(ngModel)]="value" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="payment" class="col-sm-3 col-form-label"><strong>Pagamento:</strong></label>
+                                <div class="col-sm-9">
+                                    <input id="payment" type="text" class="form-control" name="payment" placeholder="Forma de Pagamento" [(ngModel)]="payment">
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="description"><strong>Descrição do contrato:</strong></label>
                                 <textarea id="description" class="form-control" name="description" rows="5" [(ngModel)]="description"></textarea>

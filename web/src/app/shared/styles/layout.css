@@ -8,4 +8,16 @@
 body {
     width: 100vw;
     height: 100vh;
+    background-color: #fff6bc;
+}
+
+.tab-content {
+    background-color: #fff;
+    border-top-width: 0;
+    border-left-width: 1px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+    border-radius: 0 0 15px 15px;
+    border-color: #dee2e6;
+    border-style: solid;
 }

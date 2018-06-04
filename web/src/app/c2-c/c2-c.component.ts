@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToasterService, Toast } from 'angular2-toaster';
 
-import { User } from '../models';
+import { User, Contract } from '../models';
 import { ContractService } from '../services/contract.service';
 import { UserService } from '../services/user.service';
 
@@ -18,6 +18,7 @@ export class C2CComponent implements OnInit {
     public userRole: string = "hirer";
     public counterpartkey: string;
     public description: string;
+
 
     constructor(public contractService: ContractService, public userService: UserService, public toasterService: ToasterService, public router: Router) {
         userService.userSubject.subscribe(u => this.user = u);
@@ -45,28 +46,30 @@ export class C2CComponent implements OnInit {
             title: 'Ops!',
             body: 'Algo deu errado!'
         };
-        this.contractService.send({
-            userId: this.user._id,
-            userRole: this.userRole,
-            counterpart: this.counterpart.pubkey,
+        let contract = new Contract({
+            parties: [{
+                user: this.user,
+                role: this.userRole,
+                accepted: true
+            }, {
+                user: this.counterpart,
+                role: this.userRole == 'hirer' ? 'hired' : 'hirer',
+                accepted: false
+            }],
             description: this.description,
-            hirerOk: this.userRole == 'hirer' ? true : false,
-            hiredOk: this.userRole == 'hired' ? true : false,
             status: 'pending'
-        }).subscribe((c) => {
-            if(c) {
-                this.userRole = "hirer";
-                delete this.counterpart;
-                delete this.description;
-                let toast: Toast = {
-                    type: 'success',
-                    title: 'Successo!',
-                    body: 'O contrato foi enviado para a contraparte analisar!'
-                };
-                this.toasterService.pop(toast);
-                this.router.navigate(['/']);
-            }
-            else this.toasterService.pop(errToast);
+        });
+        this.contractService.send(contract).subscribe((c) => {
+            this.userRole = "hirer";
+            delete this.counterpart;
+            delete this.description;
+            let toast: Toast = {
+                type: 'success',
+                title: 'Successo!',
+                body: 'O contrato foi enviado para a contraparte analisar!'
+            };
+            this.toasterService.pop(toast);
+            this.router.navigate(['/']);
         }, (err) => {
             this.toasterService.pop(errToast);
         });

@@ -23,7 +23,6 @@ export class UserService {
         if(localStorage.getItem('pubkey')){
             this.getUser(localStorage.getItem('pubkey')).subscribe(u => {
                 this.userSubject.next(this.user);
-                router.navigate(['/']);
             });
         }
     }

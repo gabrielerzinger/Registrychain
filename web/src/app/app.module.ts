@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToasterModule } from 'angular2-toaster';
-import { TabsModule, ModalModule, BsDropdownModule } from 'ngx-bootstrap';
+import { TabsModule, ModalModule, BsDropdownModule, TooltipModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
@@ -18,6 +18,7 @@ import { RegisterComponent } from './register/register.component';
 import { C2CComponent } from './c2-c/c2-c.component';
 import { UserService } from './services/user.service';
 import { ContractService } from './services/contract.service';
+import { CEVComponent } from './cev/cev.component';
 
 const appRoutes: Routes = [
     {path: '', component: ProposalComponent},
@@ -25,7 +26,8 @@ const appRoutes: Routes = [
     {path: 'register', component: RegisterComponent},
     {path: 'logout', component: ProposalComponent},
     {path: 'profile', component: ProfileComponent},
-    {path: 'c2c', component: C2CComponent}
+    {path: 'c2c', component: C2CComponent},
+    {path: 'cev', component: CEVComponent}
 ];
 
 @NgModule({
@@ -38,6 +40,7 @@ const appRoutes: Routes = [
         TabsModule.forRoot(),
         ModalModule.forRoot(),
         BsDropdownModule.forRoot(),
+        TooltipModule.forRoot(),
         ToasterModule.forRoot()
     ],
     declarations: [
@@ -48,7 +51,8 @@ const appRoutes: Routes = [
         ProfileComponent,
         ProposalComponent,
         RegisterComponent,
-        C2CComponent
+        C2CComponent,
+        CEVComponent
     ],
     providers: [UserService, ContractService],
     bootstrap: [AppComponent]
