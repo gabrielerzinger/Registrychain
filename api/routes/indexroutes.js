@@ -1,12 +1,15 @@
 var express  = require("express");
 var router   = express.Router();
-var User     = require("../models/user");
+
+const bip39  = require('bip39');
+const driver = require('bigchaindb-driver');
+var CC 		 = require("../models/CC");
 var C2C		 = require("../models/C2C");
 var CEV 	 = require("../models/CEV");
-var util = require('util');
-var cripto = require("crypto");
-const driver = require('bigchaindb-driver');
-const bip39 = require('bip39');
+var cripto   = require("crypto");
+var CUE 	 = require("../models/CUE");
+var User     = require("../models/user");
+var util     = require('util');
 
 
 const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', {
@@ -43,6 +46,20 @@ router.post("/contracts/c2c", (req, res) => {
 
 router.post("/contracts/cev", (req, res) => {
 	CEV.create(CEVF2M(req.body), (err, c) => {
+		if(err) res.status(500).send();
+		else res.status(200).send();
+	});
+});
+
+router.post("/contracts/cue", (req, res) => {
+	CUE.create(CEVF2M(req.body), (err, c) => {
+		if(err) res.status(500).send();
+		else res.status(200).send();
+	});
+});
+
+router.post("/contracts/cc", (req, res) => {
+	CC.create(CCF2M(req.body), (err, c) => {
 		if(err) res.status(500).send();
 		else res.status(200).send();
 	});
@@ -150,11 +167,45 @@ router.get("/contracts/cev/:status/:userId", (req, res) => {
 			'status': req.params.status
 		}).populate('buyer').populate('seller').exec((err, docs2) => {
 			if(err) return res.status(500).send();
-			docs2 = docs.concat(docs).map(x => CEVM2F(x));
+			docs2 = docs.concat(docs2).map(x => CEVM2F(x));
 			return res.json(docs2);
 		});
 	});
 });
+
+router.get("/contracts/cue/:status/:userId", (req, res) => {
+	CUE.find({
+		'residentOne' : req.params.userId,
+		'status': req.params.status
+	}).populate('residentOne').populate('residentTwo').exec((err, docs) => {
+		if(err) return res.status(500).send();
+		return CUE.find({
+			'residentTwo': req.params.userId,
+			'status': req.params.status
+		}).populate('residentOne').populate('residentTWo').exec((err, docs2) => {
+			if(err) return res.status(500).send();
+			docs2 = docs.concat(docs2).map(x => CUEM2F(x));
+			return res.json(docs2);
+		});
+	});
+});
+
+router.get("/contracts/cc/:status/:userId", (req, res) => {
+	CC.find({
+		'consortOne' : req.params.userId,
+		'status' 	 : req.params.status
+	}).populate('consortOne').populate('consortTwo').exec((err, docs) => {
+		if(err) return res.status(500).send();
+		return CC.find({
+			'consortTwo' : req.params.userId,
+			'status' : req.params.status
+		}).populate('consortOne').populate('consortTwo').exec((err, docs2) => {
+			if(err) return res.status(500).send();
+			docs2 = docs.concat(docs2).map(x => CCM2F(x));
+			return res.json(docs2);
+		})
+	})
+})
 
 //Render a contract that is on the bigchain
 router.get("/contracs/show/:type/:id", (req, res) => {
@@ -171,6 +222,20 @@ router.get("/contracs/show/:type/:id", (req, res) => {
 			if(!c) return res.status(404).send();
 			return res.json(C2CM2F(c));
 		});
+	}
+	else if(req.params.type == 'cue'){
+		CUE.findById(req.params.id).populate('residentOne').populate('residentTwo').exec((err, c) => {
+			if(err) return res.status(500).send();
+			if(!c) return res.status(404).send();
+			return res.json(CUEM2F(c));
+		});
+	}
+	else if(req.params.type == 'cc'){
+		CC.findById(req.params.id).populate('consortOne').populate('consortTwo').exec((err, c) => {
+			if(err) return res.status(500).send();
+			if(!c) return res.status(404).send();
+			return res.json(CCM2F(c));
+		})
 	}
 });
 
@@ -191,7 +256,23 @@ router.put("/contracts/cev", (req, res) => {
 		else res.status(500).send();
 
 	});
-})
+});
+
+router.put("/contracts/cue", (req, res) => {
+	CUE.findByIdAndUpdate(req.body._id, CUEF2M(req.body), (err,c) => {
+		postBigchain(JSON.stringify(c, undefined, 2));
+		if(!err)	res.status(200).send();
+		else res.status(500).send();
+	});
+});
+
+router.put("/contracts/cc", (req, res) => {
+	CC.findByIdAndUpdate(req.body._id, CCF2M(req.body), (err, c) => {
+		postBigchain(JSON.stringify(c, undefined, 2));
+		if(!err) 	res.status(200).send();
+		else res.status(500).send();
+	})
+});
 
 router.delete("/contracts/c2c/:id", (req, res) => {
 	C2C.findOneAndRemove({_id: req.params.id}, (err) => {
@@ -207,6 +288,20 @@ router.delete("/contracts/cev/:id", (req, res) => {
 	});
 })
 
+router.delete("/contracts/cue/:id", (req, res) => {
+	CUE.findOneAndRemove({_id:req.params._id}, (err) => {
+		if(!err) res.status(200).send();
+		else res.status(500).send();
+	});
+});
+
+router.delete("/contracts/cc/:id", (req, res) => {
+	CC.findOneAndRemove({_id:req.params._id}, (err) => {
+		if(!err) res.status(200).send();
+		else res.status(500).send();
+	});
+});
+
 //CEV Front to Mongo
 CEVF2M = (x) => {
 	let buyer = x['parties'].find(y => y.role == 'buyer');
@@ -220,6 +315,36 @@ CEVF2M = (x) => {
 		value: x['item']['value'],
 		paymentMethod: x['paymentMethod'],
 		description: x['description'],
+		status: x['status'],
+		celebrationDate: x['celebrationDate']
+   };
+}
+
+CUEF2M = (x) => {
+	let residentOne = x['parties'].find(y => y.role == 'residentOne');
+	let residentTwo = x['parties'].find(y => y.role == 'residentTwo');
+	return {
+		residentOne: residentOne['user']['_id'],
+		residentTwo: residentTwo['user']['_id'],
+		residentOneOk: residentOne['accepted'],
+		residentTwoOk: residentTwo['accepted'],
+		address: x['address'], //not sure.
+		status: x['status'],
+		celebrationDate: x['celebrationDate']
+   };
+}
+
+CUEF2M = (x) => {
+	let consortOne = x['parties'].find(y => y.role == 'consortOne');
+	let consortTwo = x['parties'].find(y => y.role == 'consortTwo');
+	return {
+		consortOne: consortOne['user']['_id'],
+		consortTwo: consortTwo['user']['_id'],
+		consortOneOk: consortOne['accepted'],
+		consortTwoOk: consortTwo['accepted'],
+		consortOneParents: x['consortOneParents'],
+		consortTwoParents: x['consortTwoParents'],
+		address: x['address'], //not sure.
 		status: x['status'],
 		celebrationDate: x['celebrationDate']
    };
@@ -284,5 +409,46 @@ C2CM2F = (x) => {
 		celebrationDate: x.celebrationDate
 	};
 }
+
+CUEM2F = (x) => {
+	return {
+		_id: x._id,
+		parties: [{
+			user: x.residentOne,
+			accepted: x.residentOneOk,
+			role: 'residentOne'
+		}, {
+			user: x.residentTwo,
+			accepted: x.residentTwoOk,
+			role: 'residentTwo'
+		}],
+		address : x.address,
+		status: x.status,
+		type: 'c2c',
+		celebrationDate: x.celebrationDate
+	};
+}
+
+CCM2F = (x) => {
+	return {
+		_id: x._id,
+		parties: [{ 
+			user: x.consortOne,
+			accepted: x.consortOneOk,
+			role: 'consortOne'
+		}, {
+			user: x.consortTwo,
+			accepted: x.consortTwoOk,
+			role: 'consortTwo'
+		}],
+		address : x.address,
+		status: x.status,
+		consortOneParents: x.consortOneParents,
+		consortTwoParents: x.consortTwoParents,
+		type: 'cc',
+		celebrationDate: x.celebrationDate
+	};
+}
+
 
 module.exports = router;
