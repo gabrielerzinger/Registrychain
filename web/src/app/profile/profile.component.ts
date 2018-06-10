@@ -39,38 +39,15 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    accept(contract: Contract){
-        contract.parties.find(x => x.user._id == this.user._id).accepted = true;
-        if(contract.parties.every(x => x.accepted)) {
-            contract.status = 'celebrated';
-            contract.celebrationDate = moment().format('DD-MM-YYYY');
-        };
-        this.contractService.accept(contract).subscribe(() => {
-            if(contract.status == 'celebrated'){
-                this.pendingContracts.splice(this.pendingContracts.findIndex(x => x._id == contract._id), 1);
-                this.myContracts.push(contract);
-            }
-        }, () => {
-            let toast: Toast = {
-                type: 'error',
-                title: 'Ops!',
-                body: 'Não foi possível efetuar essa ação!'
-            };
-            this.toasterService.pop(toast);
-        });
+    onAccept(contract: Contract){
+        if(contract.status == 'celebrated'){
+            this.pendingContracts.splice(this.pendingContracts.findIndex(x => x._id == contract._id), 1);
+            this.myContracts.push(contract);
+        }
     }
 
-    refuse(contract: Contract){
-        this.contractService.refuse(contract).subscribe(()=>{
-            this.pendingContracts.splice(this.pendingContracts.findIndex(x => x._id == contract._id), 1);
-        }, () => {
-            let toast: Toast = {
-                type: 'error',
-                title: 'Ops!',
-                body: 'Não foi possível efetuar essa ação!'
-            };
-            this.toasterService.pop(toast);
-        });
+    onRefuse(contract: Contract){
+        this.pendingContracts.splice(this.pendingContracts.findIndex(x => x._id == contract._id), 1);
     }
 
     getCounterpart(contract: Contract){

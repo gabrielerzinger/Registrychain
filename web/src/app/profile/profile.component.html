@@ -54,6 +54,9 @@
 										<div class="col-sm-12">
 											<img id="qrcode" [src]="user.pubkeyurl">
 										</div>
+										<div class="mx-4 px-2 card bg-secondary text-white">
+											{{user.pubkey}}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -68,6 +71,7 @@
 								<thead>
 									<tr>
 										<th>Contrato ID</th>
+										<th>Tipo</th>
 										<th>Contraparte</th>
 										<th>Ação</th>
 									</tr>
@@ -75,6 +79,7 @@
 								<tbody>
 									<tr *ngFor="let c of pendingContracts">
 										<td><a href="javascript:void(0);" (click)="selectContract(c); contractModal.show()" tooltip="Clique para ver este contrato">{{c._id}}</a></td>
+										<td>{{c.type == 'c2c' ? 'Pessoas Físicas' : (c.type == 'cev' ? 'Compra & Venda' : (c.type == 'cue' ? 'União Estável' : 'Casamento'))}}</td>
 										<td>{{getCounterpart(c).user.name}}</td>
 										<td>
 											<button class="btn btn-success"  (click)="accept(c)" *ngIf="!getMe(c).accepted">Aceitar</button>
@@ -93,6 +98,7 @@
 								<thead>
 									<tr>
 										<th>Contrato ID</th>
+										<th>Tipo</th>
 										<th>Contraparte</th>
 										<th>Celebrado em</th>
 									</tr>
@@ -100,6 +106,7 @@
 								<tbody>
 									<tr *ngFor="let c of myContracts">
 										<td><a href="javascript:void(0);" (click)="selectContract(c); contractModal.show()" tooltip="Clique para ver este contrato">{{c._id}}</a></td>
+										<td>{{c.type == 'c2c' ? 'Pessoas Físicas' : (c.type == 'cev' ? 'Compra & Venda' : (c.type == 'cue' ? 'União Estável' : 'Casamento'))}}</td>
 										<td>{{getCounterpart(c).user.name}}</td>
 										<td>{{c.celebrationDate}}</td>
 									</tr>
@@ -115,7 +122,8 @@
 								<ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu">
 									<li role="menuItem"><a class="dropdown-item" routerLink="/c2c">Pessoa Física</a></li>
 									<li role="menuItem"><a class="dropdown-item" routerLink="/cev">Compra &amp; Venda</a></li>
-									<li role="menuItem"><a class="dropdown-item" href="javascript:void(0);">União Estável</a></li>
+									<li role="menuItem"><a class="dropdown-item" routerLink="/cue">União Estável</a></li>
+									<li role="menuItem"><a class="dropdown-item" routerLink="/cc">Casamento</a></li>
 								</ul>
 							</div>
 						</div>
@@ -125,152 +133,4 @@
 		</div>
 	</div>
 </div>
-
-<div class="modal fade" bsModal #contractModal="bs-modal" tabindex="-1">
-	<div class="modal-dialog" *ngIf="selectedContract">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title pull-left">Contrato {{ selectedContract.type == 'c2c' ? 'Entre Pessoas Físicas':'De Compra &amp; Venda' }}</h4>
-				<button type="button" class="close pull-right" (click)="contractModal.hide()">
-					<span>&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="container text-center card p-3">
-					<h5>Contrato ID {{selectedContract._id}}</h5>
-					<h6>{{selectedContract.status == 'celebrated' ? 'Celebrado em '+ selectedContract.celebrationDate : 'Assinatura(s) pendente(s)'}}</h6>
-					<br>
-					<h5>Identificação das partes:</h5>
-					<div class="card text-justify p-3">
-						<p>
-							<strong>{{selectedContract.type == 'c2c'? 'Contratante: ':'Vendedor: '}}</strong>
-							<span *ngIf="selectedContract.status != 'celebrated'">{{ selectedPart2.name }}</span>
-						</p>
-						<div *ngIf="selectedContract.status == 'celebrated'" class="text-justify pl-3">
-							<div class="row mx-0">
-								<div class="col-sm-4">
-									<strong>Nome:</strong>
-								</div>
-								<div class="col-sm-8">
-									{{selectedPart2.name}}
-								</div>
-							</div>
-							<div class="row mx-0">
-								<div class="col-sm-4">
-									<strong>CPF:</strong>
-								</div>
-								<div class="col-sm-8">
-									{{selectedPart2.cpf}}
-								</div>
-							</div>
-							<div class="row mx-0">
-								<div class="col-sm-4">
-									<strong>RG:</strong>
-								</div>
-								<div class="col-sm-8">
-									{{selectedPart2.rg}}
-								</div>
-							</div>
-							<div class="row mx-0">
-								<div class="col-sm-4">
-									<strong>Endereço:</strong>
-								</div>
-								<div class="col-sm-8">
-									{{selectedPart2.address}}
-								</div>
-							</div>
-							<div class="row mx-0">
-								<div class="col-sm-4">
-									<strong>Email:</strong>
-								</div>
-								<div class="col-sm-8">
-									{{selectedPart2.email}}
-								</div>
-							</div>
-						</div>
-						<br>
-						<p>
-							<strong>{{selectedContract.type == 'c2c' ? 'Contratada: ':'Comprador: '}}</strong>
-							<span *ngIf="selectedContract.status != 'celebrated'">{{ selectedPart1.name }}</span>
-						</p>
-						<div *ngIf="selectedContract.status == 'celebrated'" class="text-justify pl-3">
-							<div class="row mx-0">
-								<div class="col-sm-4">
-									<strong>Nome:</strong>
-								</div>
-								<div class="col-sm-8">
-									{{selectedPart1.name}}
-								</div>
-							</div>
-							<div class="row mx-0">
-								<div class="col-sm-4">
-									<strong>CPF:</strong>
-								</div>
-								<div class="col-sm-8">
-									{{selectedPart1.cpf}}
-								</div>
-							</div>
-							<div class="row mx-0">
-								<div class="col-sm-4">
-									<strong>RG:</strong>
-								</div>
-								<div class="col-sm-8">
-									{{selectedPart1.rg}}
-								</div>
-							</div>
-							<div class="row mx-0">
-								<div class="col-sm-4">
-									<strong>Endereço:</strong>
-								</div>
-								<div class="col-sm-8">
-									{{selectedPart1.address}}
-								</div>
-							</div>
-							<div class="row mx-0">
-								<div class="col-sm-4">
-									<strong>Email:</strong>
-								</div>
-								<div class="col-sm-8">
-									{{selectedPart1.email}}
-								</div>
-							</div>
-						</div>
-					</div>
-					<br>
-					<h5 *ngIf="selectedContract.type == 'cev'">Do Objeto:</h5>
-					<div *ngIf="selectedContract.type == 'cev'" class="text-justify pl-3 card">
-						<div class="row mx-0">
-							<div class="col-sm-4">
-								<strong>Bem:</strong>
-							</div>
-							<div class="col-sm-8">
-								{{selectedContract.item.name}}
-							</div>
-						</div>
-						<div class="row mx-0">
-							<div class="col-sm-4">
-								<strong>Valor:</strong>
-							</div>
-							<div class="col-sm-8">
-								R$ {{selectedContract.item.value}}
-							</div>
-						</div>
-						<div class="row mx-0">
-							<div class="col-sm-4">
-								<strong>Pagamento:</strong>
-							</div>
-							<div class="col-sm-8">
-								{{selectedContract.paymentMethod}}
-							</div>
-						</div>
-					</div>
-					<br *ngIf="selectedContract.type == 'cev'">
-					<h5>Descrição do contrato:</h5>
-					<div class="card text-justify p-3">
-						<p>{{selectedContract.description}}</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<app-contract-modal #contractModal [selectedContract]="selectedContract" [selectedPart1]="selectedPart1" [selectedPart2]="selectedPart2" (onAccept)="onAccept($event)" (onRefuse)="onRefuse($event)"></app-contract-modal>

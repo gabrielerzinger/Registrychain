@@ -1,5 +1,6 @@
 import { User } from './User';
 import { Item } from './Item';
+import { Address } from './Address';
 
 export class Contract {
     public _id: string = '';
@@ -14,6 +15,8 @@ export class Contract {
     public status: string = 'pending'; // should be either 'pending' or 'celebrated'
     public item?: Item | undefined = undefined;
     public paymentMethod?: string | undefined = undefined;
+    public address?: Address | undefined = undefined;
+
 
     constructor(contract?: any){
         if(contract) Object.assign(this, contract);

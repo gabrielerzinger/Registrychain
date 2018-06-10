@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="row mx-0 mt-5">
+        <div class="col-xl-8 offset-xl-2 col-xs-12 p-3 card">
+            <div class="card-body">
+                <h4 class="mb-4">Contrato - União Estável</h4>
+            	<form (ngSubmit)="onSubmit()" #cueForm="ngForm" *ngIf="!success">
+            		<div class="form-group row">
+            			<label for="counterpartkey" class="col-sm-3 col-form-label">Companheiro(a):</label>
+            			<div class="col-sm-9 input-group">
+                            <input id="counterpartkey" type="text" class="form-control" name="counterpartkey" placeholder="Chave Pública" [(ngModel)]="counterpartkey" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" (click)="getCounterpart()">Buscar</button>
+                            </div>
+                        </div>
+            		</div>
+                    <div *ngIf="counterpart" class="pt-3">
+                        <div class="container text-justify card p-3">
+                            <h5>Identificação das partes:</h5>
+                            <p class="text-center">{{user.name}} &amp; {{counterpart.name}}</p>
+                            <div class="form-group row">
+                                <label for="address" class="col-sm-3 col-form-label"><strong>Endereço:</strong></label>
+                                <div class="col-sm-9">
+                                    <input id="address" type="text" class="form-control" name="address" placeholder="Logradouro" [(ngModel)]="address.address" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="number" class="col-sm-3 col-form-label"><strong>Número:</strong></label>
+                                <div class="col-sm-9">
+                                    <input id="number" type="number" class="form-control" name="number" placeholder="Número" [(ngModel)]="address.number" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="neighborhood" class="col-sm-3 col-form-label"><strong>Bairro:</strong></label>
+                                <div class="col-sm-9">
+                                    <input id="neighborhood" type="text" class="form-control" name="neighborhood" placeholder="Bairro" [(ngModel)]="address.neighborhood" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="postalCode" class="col-sm-3 col-form-label"><strong>CEP:</strong></label>
+                                <div class="col-sm-9">
+                                    <input id="postalCode" type="text" class="form-control" name="postalCode" placeholder="CEP" [(ngModel)]="address.postalCode" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="city" class="col-sm-3 col-form-label"><strong>Cidade:</strong></label>
+                                <div class="col-sm-9">
+                                    <input id="city" type="text" class="form-control" name="city" placeholder="Cidade" [(ngModel)]="address.city" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="state" class="col-sm-3 col-form-label"><strong>Estado:</strong></label>
+                                <div class="col-sm-9">
+                                    <input id="state" type="text" class="form-control" name="state" placeholder="Estado" [(ngModel)]="address.state" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="description"><strong>Detalhes do contrato:</strong></label>
+                                <textarea id="description" class="form-control" name="description" rows="5" [(ngModel)]="description"></textarea>
+                            </div>
+                            <div class="row mx-0">
+                                <div class="col-sm-6 form-group text-center">
+                                    <input id="userSignature" type="password" class="form-control" name="userSignature" placeholder="Chave Privada" [(ngModel)]="userSignature" required>
+                                    <label for="userSignature">{{ user.name }}</label>
+                                </div>
+                            </div>
+                        </div>
+                		<div class="text-right mt-3">
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                    </div>
+            	</form>
+            </div>
+        </div>
+    </div>
+</div>

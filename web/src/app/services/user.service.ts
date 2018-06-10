@@ -20,8 +20,8 @@ export class UserService {
     public userSubject: ReplaySubject<User> = new ReplaySubject<User>(1);
 
     constructor(public http: HttpClient, public router: Router) {
-        if(localStorage.getItem('pubkey')){
-            this.getUser(localStorage.getItem('pubkey')).subscribe(u => {
+        if(sessionStorage.getItem('pubkey')){
+            this.getUser(sessionStorage.getItem('pubkey')).subscribe(u => {
                 this.userSubject.next(this.user);
             });
         }
@@ -71,7 +71,7 @@ export class UserService {
                     QRCode.toDataURL(this.user.pubkey).then(url => {
                         this.user.pubkeyurl = url;
                         this.userSubject.next(this.user);
-                        localStorage.setItem('pubkey', this.user.pubkey);
+                        sessionStorage.setItem('pubkey', this.user.pubkey);
                         o.next(this.user);
                         o.complete();
                         this.router.navigate(['/']);
@@ -84,7 +84,7 @@ export class UserService {
 
     logout() {
         this.user = null;
-        localStorage.removeItem('pubkey');
+        sessionStorage.removeItem('pubkey');
         this.userSubject.next(null);
         this.router.navigate(['/']);
     }

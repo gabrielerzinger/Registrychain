@@ -19,6 +19,9 @@ import { C2CComponent } from './c2-c/c2-c.component';
 import { UserService } from './services/user.service';
 import { ContractService } from './services/contract.service';
 import { CEVComponent } from './cev/cev.component';
+import { ContractModalComponent } from './profile/contract-modal/contract-modal.component';
+import { CUEComponent } from './cue/cue.component';
+import { CCComponent } from './cc/cc.component';
 
 const appRoutes: Routes = [
     {path: '', component: ProposalComponent},
@@ -27,7 +30,9 @@ const appRoutes: Routes = [
     {path: 'logout', component: ProposalComponent},
     {path: 'profile', component: ProfileComponent},
     {path: 'c2c', component: C2CComponent},
-    {path: 'cev', component: CEVComponent}
+    {path: 'cev', component: CEVComponent},
+    {path: 'cue', component: CUEComponent},
+    {path: 'cc', component: CCComponent}
 ];
 
 @NgModule({
@@ -52,7 +57,10 @@ const appRoutes: Routes = [
         ProposalComponent,
         RegisterComponent,
         C2CComponent,
-        CEVComponent
+        CEVComponent,
+        ContractModalComponent,
+        CUEComponent,
+        CCComponent
     ],
     providers: [UserService, ContractService],
     bootstrap: [AppComponent]
