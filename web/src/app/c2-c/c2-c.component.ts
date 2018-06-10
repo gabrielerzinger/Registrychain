@@ -61,9 +61,6 @@ export class C2CComponent implements OnInit {
             type: 'c2c'
         });
         this.contractService.send(contract).subscribe(() => {
-            this.userRole = "hirer";
-            delete this.counterpart;
-            delete this.description;
             let toast: Toast = {
                 type: 'success',
                 title: 'Successo!',
