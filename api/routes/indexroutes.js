@@ -29,9 +29,10 @@ function postBigchain(contract) {
 	    ],
 	    doll.publicKey
 	)
-	const txSigned = driver.Transaction.signTransaction(tx, doll.privateKey)
-	conn.postTransactionCommit(txSigned)
-	    .then(retrievedTx => console.log('Transaction ', retrievedTx.id, ' successfully posted.'))
+	const txSigned = driver.Transaction.signTransaction(tx, doll.privateKey);
+	conn.postTransaction(txSigned)
+    .then(() => conn.pollStatusAndFetchTransaction(txSigned.id))
+    .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
 
 }
 
