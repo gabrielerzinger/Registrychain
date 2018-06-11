@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var CTSchema = new mongoose.Schema({
 	employee: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 	company:  { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-	function: { type: String },
+	employeeFunction: { type: String },
 	employeeNumber: {type: String},
 	employeeSeries: {type: String},
 	duration:
