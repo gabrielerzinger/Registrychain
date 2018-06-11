@@ -2,10 +2,22 @@
     <div class="row mx-0 mt-5">
         <div class="col-xl-8 offset-xl-2 col-xs-12 p-3 card">
             <div class="card-body">
-                <h4 class="mb-4">Contrato - União Estável</h4>
-            	<form (ngSubmit)="onSubmit()" #cueForm="ngForm" *ngIf="!success">
+                <h4 class="mb-4">Contrato - Casamento</h4>
+            	<form (ngSubmit)="onSubmit()" #ccForm="ngForm" *ngIf="!success">
+                    <div class="form-group row">
+                        <label for="father" class="col-sm-3 col-form-label">Nome do seu pai:</label>
+                        <div class="col-sm-9">
+                            <input id="father" type="text" class="form-control" name="father" placeholder="Nome do Pai" [(ngModel)]="father" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="mother" class="col-sm-3 col-form-label">Nome da sua Mãe:</label>
+                        <div class="col-sm-9">
+                            <input id="mother" type="text" class="form-control" name="mother" placeholder="Nome da mãe" [(ngModel)]="mother" required>
+                        </div>
+                    </div>
             		<div class="form-group row">
-            			<label for="counterpartkey" class="col-sm-3 col-form-label">Companheiro(a):</label>
+            			<label for="counterpartkey" class="col-sm-3 col-form-label">Cônjuge:</label>
             			<div class="col-sm-9 input-group">
                             <input id="counterpartkey" type="text" class="form-control" name="counterpartkey" placeholder="Chave Pública" [(ngModel)]="counterpartkey" required>
                             <div class="input-group-append">
@@ -55,7 +67,7 @@
                             </div>
                             <br>
                             <div class="row mx-0">
-                                <div class="col-sm-12 form-group text-center">
+                                <div class="col-sm-10 offset-sm-1 px-5 form-group text-center">
                                     <input id="userSignature" type="password" class="form-control" name="userSignature" placeholder="Chave Privada" [(ngModel)]="userSignature" required>
                                     <label for="userSignature">{{ user.name }}</label>
                                 </div>

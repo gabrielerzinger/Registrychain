@@ -8,6 +8,10 @@ export class Contract {
         user: User,
         role: string,
         accepted: boolean,
+        parents?: {
+            fatherName: string,
+            motherName: string
+        } | undefined;
     }> = [];
     public type: string = '';
     public description: string = '';

@@ -133,4 +133,37 @@
 		</div>
 	</div>
 </div>
-<app-contract-modal #contractModal [selectedContract]="selectedContract" [selectedPart1]="selectedPart1" [selectedPart2]="selectedPart2" (onAccept)="onAccept($event)" (onRefuse)="onRefuse($event)"></app-contract-modal>
+<app-contract-modal #contractModal [user]="user" [selectedContract]="selectedContract" [selectedPart1]="selectedPart1" [selectedPart2]="selectedPart2" (onAccept)="onAccept($event)" (onRefuse)="onRefuse($event)"></app-contract-modal>
+<div class="modal fade" bsModal #parentsModal="bs-modal" tabindex="-1" (onHide)="unsubscribe()">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title pull-left">Precisamos de alguns dados:</h4>
+				<button type="button" class="close pull-right" (click)="parentsModal.hide();">
+					<span>&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container text-center card p-3">
+					<form (ngSubmit)="onSubmit()" #parentsForm="ngForm">
+						<div class="form-group row">
+	                        <label for="father" class="col-sm-3 col-form-label">Nome do seu pai:</label>
+	                        <div class="col-sm-9">
+	                            <input id="father" type="text" class="form-control" name="father" placeholder="Nome do Pai" [(ngModel)]="father" required>
+	                        </div>
+	                    </div>
+	                    <div class="form-group row">
+	                        <label for="mother" class="col-sm-3 col-form-label">Nome da sua mãe:</label>
+	                        <div class="col-sm-9">
+	                            <input id="mother" type="text" class="form-control" name="mother" placeholder="Nome da Mãe" [(ngModel)]="mother" required>
+	                        </div>
+	                    </div>
+						<div class="text-right mt-3">
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

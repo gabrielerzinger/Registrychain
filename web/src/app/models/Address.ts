@@ -1,5 +1,5 @@
 export class Address {
-    public address: string = '';
+    public street: string = '';
     public number: number = 0;
     public neighborhood: string = '';
     public postalCode: string = '';

@@ -1,8 +1,8 @@
 <div class="modal fade" bsModal #contractModal="bs-modal" tabindex="-1">
-	<div class="modal-dialog" *ngIf="selectedContract">
+	<div class="modal-dialog modal-lg" *ngIf="selectedContract">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title pull-left">Contrato {{ selectedContract.type == 'c2c' ? 'Entre Pessoas Físicas':'De Compra &amp; Venda' }}</h4>
+				<h4 class="modal-title pull-left">{{contractTitle}}</h4>
 				<button type="button" class="close pull-right" (click)="contractModal.hide()">
 					<span>&times;</span>
 				</button>
@@ -15,8 +15,8 @@
 					<h5>Identificação das partes:</h5>
 					<div class="card text-justify p-3">
 						<p>
-							<strong>{{selectedContract.type == 'c2c'? 'Contratante: ':'Vendedor: '}}</strong>
-							<span *ngIf="selectedContract.status != 'celebrated'">{{ selectedPart2.name }}</span>
+							<strong *ngIf="selectedContract.type != 'cue' && selectedContract.type != 'cc'">{{selectedContract.type == 'c2c'? 'Contratante: ':'Vendedor: '}}</strong>
+							<span *ngIf="selectedContract.status != 'celebrated'">{{ selectedPart2.user.name }}</span>
 						</p>
 						<div *ngIf="selectedContract.status == 'celebrated'" class="text-justify pl-3">
 							<div class="row mx-0">
@@ -24,7 +24,7 @@
 									<strong>Nome:</strong>
 								</div>
 								<div class="col-sm-8">
-									{{selectedPart2.name}}
+									{{selectedPart2.user.name}}
 								</div>
 							</div>
 							<div class="row mx-0">
@@ -32,7 +32,7 @@
 									<strong>CPF:</strong>
 								</div>
 								<div class="col-sm-8">
-									{{selectedPart2.cpf}}
+									{{selectedPart2.user.cpf}}
 								</div>
 							</div>
 							<div class="row mx-0">
@@ -40,7 +40,23 @@
 									<strong>RG:</strong>
 								</div>
 								<div class="col-sm-8">
-									{{selectedPart2.rg}}
+									{{selectedPart2.user.rg}}
+								</div>
+							</div>
+							<div class="row mx-0" *ngIf="selectedContract.type == 'cc'">
+								<div class="col-sm-4">
+									<strong>Nome do Pai:</strong>
+								</div>
+								<div class="col-sm-8">
+									{{selectedPart2.parents.fatherName}}
+								</div>
+							</div>
+							<div class="row mx-0" *ngIf="selectedContract.type == 'cc'">
+								<div class="col-sm-4">
+									<strong>Nome da Mãe:</strong>
+								</div>
+								<div class="col-sm-8">
+									{{selectedPart2.parents.motherName}}
 								</div>
 							</div>
 							<div class="row mx-0">
@@ -48,7 +64,7 @@
 									<strong>Endereço:</strong>
 								</div>
 								<div class="col-sm-8">
-									{{selectedPart2.address}}
+									{{selectedPart2.user.address}}
 								</div>
 							</div>
 							<div class="row mx-0">
@@ -56,14 +72,14 @@
 									<strong>Email:</strong>
 								</div>
 								<div class="col-sm-8">
-									{{selectedPart2.email}}
+									{{selectedPart2.user.email}}
 								</div>
 							</div>
 						</div>
 						<br>
 						<p>
-							<strong>{{selectedContract.type == 'c2c' ? 'Contratada: ':'Comprador: '}}</strong>
-							<span *ngIf="selectedContract.status != 'celebrated'">{{ selectedPart1.name }}</span>
+							<strong *ngIf="selectedContract.type != 'cue' && selectedContract.type != 'cc'">{{selectedContract.type == 'c2c' ? 'Contratada: ':'Comprador: '}}</strong>
+							<span *ngIf="selectedContract.status != 'celebrated'">{{ selectedPart1.user.name }}</span>
 						</p>
 						<div *ngIf="selectedContract.status == 'celebrated'" class="text-justify pl-3">
 							<div class="row mx-0">
@@ -71,7 +87,7 @@
 									<strong>Nome:</strong>
 								</div>
 								<div class="col-sm-8">
-									{{selectedPart1.name}}
+									{{selectedPart1.user.name}}
 								</div>
 							</div>
 							<div class="row mx-0">
@@ -79,7 +95,7 @@
 									<strong>CPF:</strong>
 								</div>
 								<div class="col-sm-8">
-									{{selectedPart1.cpf}}
+									{{selectedPart1.user.cpf}}
 								</div>
 							</div>
 							<div class="row mx-0">
@@ -87,7 +103,23 @@
 									<strong>RG:</strong>
 								</div>
 								<div class="col-sm-8">
-									{{selectedPart1.rg}}
+									{{selectedPart1.user.rg}}
+								</div>
+							</div>
+							<div class="row mx-0" *ngIf="selectedContract.type == 'cc'">
+								<div class="col-sm-4">
+									<strong>Nome do Pai:</strong>
+								</div>
+								<div class="col-sm-8">
+									{{selectedPart1.parents.fatherName}}
+								</div>
+							</div>
+							<div class="row mx-0" *ngIf="selectedContract.type == 'cc'">
+								<div class="col-sm-4">
+									<strong>Nome da Mãe:</strong>
+								</div>
+								<div class="col-sm-8">
+									{{selectedPart1.parents.motherName}}
 								</div>
 							</div>
 							<div class="row mx-0">
@@ -95,7 +127,7 @@
 									<strong>Endereço:</strong>
 								</div>
 								<div class="col-sm-8">
-									{{selectedPart1.address}}
+									{{selectedPart1.user.address}}
 								</div>
 							</div>
 							<div class="row mx-0">
@@ -103,12 +135,55 @@
 									<strong>Email:</strong>
 								</div>
 								<div class="col-sm-8">
-									{{selectedPart1.email}}
+									{{selectedPart1.user.email}}
 								</div>
 							</div>
 						</div>
 					</div>
 					<br>
+					<h5 *ngIf="selectedContract.type == 'cue' || selectedContract.type == 'cc'">Endereço Registrado</h5>
+					<div *ngIf="selectedContract.type == 'cue' || selectedContract.type == 'cc'" class="text-justify pl-3 card">
+						<div class="row mx-0">
+							<div class="col-sm-4">
+								<strong>Endereço:</strong>
+							</div>
+							<div class="col-sm-8">
+								{{selectedContract.address.street}}, {{selectedContract.address.number}}
+							</div>
+						</div>
+						<div class="row mx-0">
+							<div class="col-sm-4">
+								<strong>Bairro:</strong>
+							</div>
+							<div class="col-sm-8">
+								{{selectedContract.address.neighborhood}}
+							</div>
+						</div>
+						<div class="row mx-0">
+							<div class="col-sm-4">
+								<strong>CEP:</strong>
+							</div>
+							<div class="col-sm-8">
+								{{selectedContract.address.postalCode}}
+							</div>
+						</div>
+						<div class="row mx-0">
+							<div class="col-sm-4">
+								<strong>Cidade:</strong>
+							</div>
+							<div class="col-sm-8">
+								{{selectedContract.address.city}}
+							</div>
+						</div>
+						<div class="row mx-0">
+							<div class="col-sm-4">
+								<strong>Estado:</strong>
+							</div>
+							<div class="col-sm-8">
+								{{selectedContract.address.state}}
+							</div>
+						</div>
+				   </div>
 					<h5 *ngIf="selectedContract.type == 'cev'">Do Objeto:</h5>
 					<div *ngIf="selectedContract.type == 'cev'" class="text-justify pl-3 card">
 						<div class="row mx-0">
@@ -137,8 +212,8 @@
 						</div>
 					</div>
 					<br *ngIf="selectedContract.type == 'cev'">
-					<h5>Descrição do contrato:</h5>
-					<div class="card text-justify p-3">
+					<h5 *ngIf="selectedContract.type == 'c2c' || selectedContract.type == 'cev'">Descrição do contrato:</h5>
+					<div *ngIf="selectedContract.type == 'c2c' || selectedContract.type == 'cev'" class="card text-justify p-3">
 						<p>{{selectedContract.description}}</p>
 					</div>
 				</div>
