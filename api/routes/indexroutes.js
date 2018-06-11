@@ -20,7 +20,6 @@ const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', {
 const doll =  new driver.Ed25519Keypair();
 
 function postBigchain(contract) {
-	console.log('t');
 	const API_PATH = 'https://test.bigchaindb.com/api/v1/'
 	const tx = driver.Transaction.makeCreateTransaction(
 		contract,
@@ -52,7 +51,7 @@ router.post("/contracts/cev", (req, res) => {
 });
 
 router.post("/contracts/cue", (req, res) => {
-	CUE.create(CEVF2M(req.body), (err, c) => {
+	CUE.create(CUEF2M(req.body), (err, c) => {
 		if(err) res.status(500).send();
 		else res.status(200).send();
 	});
@@ -121,21 +120,50 @@ router.get("/contracts/:status/:userId", (req, res) => {
 			'status': req.params.status
 		}).populate('buyer').populate('seller').exec((err, docs) => {
 			if(err) return reject(err);
-			console.log('found: ',JSON.stringify(docs, undefined, 2));
 			return CEV.find({
 				'seller': req.params.userId,
 				'status': req.params.status
 			}).populate('buyer').populate('seller').exec((err, docs2) => {
 				if(err) return reject(err);
-				console.log('and: ', JSON.stringify(docs2, undefined, 2));
 				docs2 = docs.concat(docs2).map(x => CEVM2F(x));
 				return resolve(docs2);
 			});
 		});
 	});
-	Promise.all([c2c$, cev$]).then((docs) => {
-		console.log('here:',JSON.stringify(docs[1], undefined, 2));
-		res.json(docs[0].concat(docs[1]));
+	let cue$ = new Promise((resolve, reject) => {
+		CUE.find({
+			'residentOne' : req.params.userId,
+			'status': req.params.status
+		}).populate('residentOne').populate('residentTwo').exec((err, docs) => {
+			if(err) return reject(err);
+			return CUE.find({
+				'residentTwo': req.params.userId,
+				'status': req.params.status
+			}).populate('residentOne').populate('residentTwo').exec((err, docs2) => {
+				if(err) return reject(err);
+				docs2 = docs.concat(docs2).map(x => CUEM2F(x));
+				return resolve(docs2);
+			});
+		});
+	});
+	let cc$ = new Promise((resolve, reject) => {
+		CC.find({
+			'consortOne' : req.params.userId,
+			'status': req.params.status
+		}).populate('consortOne').populate('consortTwo').exec((err, docs) => {
+			if(err) return reject(err);
+			return CC.find({
+				'consortTwo': req.params.userId,
+				'status': req.params.status
+			}).populate('consortOne').populate('consortTwo').exec((err, docs2) => {
+				if(err) return reject(err);
+				docs2 = docs.concat(docs2).map(x => CCM2F(x));
+				return resolve(docs2);
+			});
+		});
+	});
+	Promise.all([c2c$, cev$, cue$, cc$]).then((docs) => {
+		res.json(docs[0].concat(docs[1], docs[2], docs[3]));
 	}, err => res.status(500).send());
 });
 
@@ -289,14 +317,14 @@ router.delete("/contracts/cev/:id", (req, res) => {
 })
 
 router.delete("/contracts/cue/:id", (req, res) => {
-	CUE.findOneAndRemove({_id:req.params._id}, (err) => {
+	CUE.findOneAndRemove({_id:req.params.id}, (err) => {
 		if(!err) res.status(200).send();
 		else res.status(500).send();
 	});
 });
 
 router.delete("/contracts/cc/:id", (req, res) => {
-	CC.findOneAndRemove({_id:req.params._id}, (err) => {
+	CC.findOneAndRemove({_id:req.params.id}, (err, doc) => {
 		if(!err) res.status(200).send();
 		else res.status(500).send();
 	});
@@ -334,7 +362,7 @@ CUEF2M = (x) => {
    };
 }
 
-CUEF2M = (x) => {
+CCF2M = (x) => {
 	let consortOne = x['parties'].find(y => y.role == 'consortOne');
 	let consortTwo = x['parties'].find(y => y.role == 'consortTwo');
 	return {
@@ -342,8 +370,8 @@ CUEF2M = (x) => {
 		consortTwo: consortTwo['user']['_id'],
 		consortOneOk: consortOne['accepted'],
 		consortTwoOk: consortTwo['accepted'],
-		consortOneParents: x['consortOneParents'],
-		consortTwoParents: x['consortTwoParents'],
+		consortOneParents: consortOne['parents'],
+		consortTwoParents: consortTwo['parents'],
 		address: x['address'], //not sure.
 		status: x['status'],
 		celebrationDate: x['celebrationDate']
@@ -424,7 +452,7 @@ CUEM2F = (x) => {
 		}],
 		address : x.address,
 		status: x.status,
-		type: 'c2c',
+		type: 'cue',
 		celebrationDate: x.celebrationDate
 	};
 }
@@ -432,19 +460,19 @@ CUEM2F = (x) => {
 CCM2F = (x) => {
 	return {
 		_id: x._id,
-		parties: [{ 
+		parties: [{
 			user: x.consortOne,
 			accepted: x.consortOneOk,
+			parents: x.consortOneParents,
 			role: 'consortOne'
 		}, {
 			user: x.consortTwo,
 			accepted: x.consortTwoOk,
+			parents: x.consortTwoParents,
 			role: 'consortTwo'
 		}],
 		address : x.address,
 		status: x.status,
-		consortOneParents: x.consortOneParents,
-		consortTwoParents: x.consortTwoParents,
 		type: 'cc',
 		celebrationDate: x.celebrationDate
 	};

@@ -13,7 +13,7 @@ var CCSchema = new mongoose.Schema({
 	},
 	consortOneOk : { type: Boolean },
 	consortTwoOk: { type: Boolean },
-	addres : {
+	address: {
 		street: String,
 		number: Number,
 		neighborhood: String,

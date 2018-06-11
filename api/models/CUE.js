@@ -5,7 +5,7 @@ var CUESchema = new mongoose.Schema({
 	residentTwo: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 	residentOneOk : { type: Boolean },
 	residentTwoOk: { type: Boolean },
-	addres : {
+	address: {
 		street: String,
 		number: Number,
 		neighborhood: String,
