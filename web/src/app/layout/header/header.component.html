@@ -10,13 +10,11 @@
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/">Proposta</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/">Funcionamento</a>
+                <li *ngIf="currUser" class="nav-item">
+                    <a class="nav-link" routerLink="/profile">Contratos</a>
                 </li>
                 <li *ngIf="currUser" class="nav-item">
-                    <a class="nav-link" routerLink="/profile">
-                        Olá {{currUser.name.split(" ")[0]}}
-                    </a>
+                    <a class="nav-link" routerLink="/profile">Perfil</a>
                 </li>
                 <li *ngIf="currUser" class="nav-item">
                     <a class="nav-link" routerLink="/logout">Sair</a>
