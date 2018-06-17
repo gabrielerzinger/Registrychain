@@ -1,5 +1,15 @@
 var express  = require("express");
 var router   = express.Router();
+var multer	 = require('multer');
+var storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, 'docs/'+file.fieldname);
+	},
+	filename: (req, file, cb) => {
+		cb(null, req.params.cpf+'.jpg');
+	}
+});
+var upload   = multer({storage: storage});
 
 const bip39  = require('bip39');
 const driver = require('bigchaindb-driver');
@@ -10,6 +20,8 @@ var cripto   = require("crypto");
 var CUE 	 = require("../models/CUE");
 var User     = require("../models/user");
 var util     = require('util');
+var authy 	 = require('authy')('RZ5xxY6RXXpkZa0PQIFwdG04VUqnXrca');
+var fs		 = require('fs');
 var CronJob = require('cron').CronJob;
 
 new CronJob('*/10 * * * * *', function(){
@@ -31,7 +43,6 @@ new CronJob('*/10 * * * * *', function(){
 		});
 	});
 }, null, true);
-
 
 const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', {
 	    app_id: '20088fc5',
@@ -86,6 +97,23 @@ function postBigchain(contract) {
 	return txSigned.id;
 }
 
+router.post("/authyRegister", (req, res) => {
+	let user = req.body;
+	authy.register_user(user.email, user.phone, '55', (err, rs) => {
+		if(err) res.send(err);
+		else res.send(rs);
+	});
+});
+
+router.get("/checkToken/:token/:authid", (req, res) => {
+	let token = req.params.token;
+	let id = req.params.authid;
+	authy.verify(id, token, (err, rs) => {
+		if(err) res.send(err);
+		else res.send(rs);
+	});
+});
+
 router.post("/contracts/c2c", (req, res) => {
 	C2C.create(C2CF2M(req.body), (err, c) => {
 		if(err) res.status(500).send();
@@ -121,6 +149,14 @@ router.post("/contracts/cc", (req, res) => {
 	});
 });
 
+router.get("/checkUser/:cpf", (req, res) => {
+	User.findOne({'cpf': req.params.cpf}, (err, user) => {
+		if(err) return res.status(500).send({message: 'Internal Error'});
+		if(user) return res.send({message: 'User already exists', available: false});
+		else return res.send({message: 'User available', available: true});
+	});
+})
+
 router.post("/register", (req, res) => {
 	const usrK = new driver.Ed25519Keypair();
 	User.findOne({'username': req.body.user.username}, (err, user) => {
@@ -132,6 +168,21 @@ router.post("/register", (req, res) => {
 			res.status(201).json(u);
 		});
 	});
+});
+
+router.post("/docs/:cpf", upload.fields([{ name: 'photo', maxCount: 1}, {name: 'rg_front', maxCount: 1}, {name: 'rg_back', maxCount: 1}]), (req, res) => {
+	console.log(req.params.cpf);
+	User.findOne({'cpf': req.params.cpf}, (err, user) => {
+		if(err) return res.status(500).send();
+		if(user) {
+			user.set({verified: 'pending'});
+			user.save((err, upd) => {
+				if(!err) return res.status(200).send();
+				else return res.status(400).send();
+			});
+		}
+		else return res.status(400).send();
+	})
 });
 
 router.post("/login", (req, res) => {
@@ -349,7 +400,7 @@ router.put("/contracts/cev", (req, res) => {
 
 router.put("/contracts/cue", (req, res) => {
 	CUE.findByIdAndUpdate(req.body._id, CUEF2M(req.body), (err,c) => {
-		
+
 		let s = postBigchain(JSON.stringify(c, undefined, 2));
 		c.set({txId: s});
 		c.save();

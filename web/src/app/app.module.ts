@@ -22,6 +22,12 @@ import { CEVComponent } from './cev/cev.component';
 import { ContractModalComponent } from './profile/contract-modal/contract-modal.component';
 import { CUEComponent } from './cue/cue.component';
 import { CCComponent } from './cc/cc.component';
+import { TokenDialogComponent } from './token-dialog/token-dialog.component';
+import { VerifyComponent } from './verify/verify.component';
+import { CEVModalComponent } from './profile/contract-modal/cev-modal/cev-modal.component';
+import { CUEModalComponent } from './profile/contract-modal/cue-modal/cue-modal.component';
+import { CCModalComponent } from './profile/contract-modal/cc-modal/cc-modal.component';
+import { C2CModalComponent } from './profile/contract-modal/c2-c-modal/c2-c-modal.component';
 
 const appRoutes: Routes = [
     {path: '', component: ProposalComponent},
@@ -29,10 +35,12 @@ const appRoutes: Routes = [
     {path: 'register', component: RegisterComponent},
     {path: 'logout', component: ProposalComponent},
     {path: 'profile', component: ProfileComponent},
+    {path: 'contracts', component: ProfileComponent},
     {path: 'c2c', component: C2CComponent},
     {path: 'cev', component: CEVComponent},
     {path: 'cue', component: CUEComponent},
-    {path: 'cc', component: CCComponent}
+    {path: 'cc', component: CCComponent},
+    {path: 'verify', component: VerifyComponent}
 ];
 
 @NgModule({
@@ -42,10 +50,10 @@ const appRoutes: Routes = [
         RouterModule.forRoot(appRoutes),
         HttpClientModule,
         BrowserAnimationsModule,
-        TabsModule.forRoot(),
         ModalModule.forRoot(),
         BsDropdownModule.forRoot(),
         TooltipModule.forRoot(),
+        TabsModule.forRoot(),
         ToasterModule.forRoot()
     ],
     declarations: [
@@ -60,8 +68,15 @@ const appRoutes: Routes = [
         CEVComponent,
         ContractModalComponent,
         CUEComponent,
-        CCComponent
+        CCComponent,
+        TokenDialogComponent,
+        VerifyComponent,
+        CEVModalComponent,
+        CUEModalComponent,
+        CCModalComponent,
+        C2CModalComponent
     ],
+    entryComponents: [TokenDialogComponent],
     providers: [UserService, ContractService],
     bootstrap: [AppComponent]
 })

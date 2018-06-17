@@ -1,0 +1,50 @@
+<div class="container text-center card p-3">
+    <h5>Contrato ID {{contract._id}}</h5>
+    <h6>{{contract.status == 'celebrated' ? 'Celebrado em '+ contract.celebrationDate : 'Assinatura(s) pendente(s)'}}</h6>
+    <br>
+    <h5>Identificação das partes:</h5>
+    <div class="card text-justify p-3">
+        <p>
+            <strong>Vendedor: </strong>
+            <span *ngIf="contract.status != 'celebrated'">{{ seller.user.name }}</span>
+        </p>
+        <div *ngIf="contract.status == 'celebrated'" class="text-justify pl-3">
+            {{seller.user.name}}, inscrito no R.G. sob o número {{seller.user.rg}}, bem como no CPF número {{seller.user.cpf}}, residente e domiciliado no endereço {{seller.user.address}}, tendo endereço de email {{seller.user.email}};
+        </div>
+        <br>
+        <p>
+            <strong>'Comprador: </strong>
+            <span *ngIf="contract.status != 'celebrated'">{{ buyer.user.name }}</span>
+        </p>
+        <div *ngIf="contract.status == 'celebrated'" class="text-justify pl-3">
+            {{buyer.user.name}}, inscrito no R.G. sob o número {{buyer.user.rg}}, bem como no CPF número {{buyer.user.cpf}}, residente e domiciliado no endereço {{buyer.user.address}}, tendo endereço de email {{buyer.user.email}};
+        </div>
+    </div>
+    <br>
+    <div class="text-justify px-3 card">
+        <h5 class="text-center">DO OBJETO</h5>
+        <p><strong>Cláusula 1.</strong> O presente contrato tem como objeto um(a) {{contract.item.name}};</p>
+        <h5 class="text-center">DAS OBRIGAÇÕES</h5>
+        <p><strong>Cláusula 2.</strong> O VENDEDOR se obriga a entrear ao COMPRADOR o OBJETO, livre de qualquer ônus ou encargo.</p>
+        <p><strong>Cláusula 3.</strong> O COMPRADOR se responsabilizará, após a celebração deste instrumento, pelos ônus ou encargos que incidirem sobre o OBJETO adquirido.</p>
+        <h5 class="text-center">DO PREÇO</h5>
+        <p><strong>Clásula 5.</strong> O COMPRADOR pagará ao VENDEDOR, pela compra do OBJETO deste contrato, a quantia de R$ {{ contract.item.value }}, sendo {{ contract.paymentMethod}} o(a) forma de pagamento. A celebração deste contrato está condicionada a este pagamento.</p>
+        <h5 class="text-center">CONDIÇÕES GERAIS</h5>
+        <p><strong>Cláusula 6.</strong> Caso o OBJETO apresente algum vício redibitório, o VENDEDOR se responsabilizará pelo conserto ou pela devolução do valor pago a título de conserto pelo COMPRADOR.</p>
+        <p><strong>Cláusula 7.</strong> O presente contrato passa a valer a partir da assinatura digital pelas partes, obrigando-se a ele os herdeiros ou sucessores das mesmas.</p>
+        <h5 class="text-center">DO FORO</h5>
+        <p><strong>Cláusula 8.</strong>Para dirimir quaisquer controvérsias oriundas do CONTRATO, as partes elegem o foro da comarca de Itajubá, Minas Gerais.</p>
+        <br>
+        <p>Por estarem assim justos e contratados, firmam o presente instrumento.</p>
+        <div class="row">
+            <div class="col-6 text-center">
+                <p>{{seller.user.name}}</p>
+                <p><strong>Vendedor</strong></p>
+            </div>
+            <div class="col-6 text-center">
+                <p>{{buyer.user.name}}</p>
+                <p><strong>Comprador</strong></p>
+            </div>
+        </div>
+    </div>
+</div>

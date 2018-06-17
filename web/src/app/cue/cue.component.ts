@@ -61,16 +61,18 @@ export class CUEComponent implements OnInit {
             status: 'pending',
             type: 'cue'
         });
-        this.contractService.send(contract).subscribe((c) => {
-            let toast: Toast = {
-                type: 'success',
-                title: 'Successo!',
-                body: 'O contrato foi enviado para a contraparte analisar!'
-            };
-            this.toasterService.pop(toast);
-            this.router.navigate(['/profile']);
-        }, (err) => {
-            this.toasterService.pop(errToast);
+        this.userService.requestToken(this.user).subscribe( () => {
+            this.contractService.send(contract).subscribe((c) => {
+                let toast: Toast = {
+                    type: 'success',
+                    title: 'Successo!',
+                    body: 'O contrato foi enviado para a contraparte analisar!'
+                };
+                this.toasterService.pop(toast);
+                this.router.navigate(['/profile']);
+            }, (err) => {
+                this.toasterService.pop(errToast);
+            });
         });
     }
 }
