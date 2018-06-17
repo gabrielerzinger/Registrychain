@@ -14,6 +14,8 @@ var CronJob = require('cron').CronJob;
 
 new CronJob('*/10 * * * * *', function(){
 	console.log("works");
+
+	postBigchain('oi');
 	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate('buyer').populate('seller').exec((e, c) => {
 		c.forEach( cc => {
 			checkifTr(cc.buyer.wallet, cc.seller.wallet, cc.value).then(status => {
@@ -41,7 +43,6 @@ const api = new RippleAPI({
 	server: 'wss://s2.ripple.com'
 });
 
-const doll =  new driver.Ed25519Keypair();
 
 function checkifTr(secondAddrs, firstAddrs, amount){
 	return api.connect().then(() => {
@@ -73,20 +74,16 @@ router.get("/", (req, res) => {
 */
 
 function postBigchain(contract) {
-	const API_PATH = 'https://test.bigchaindb.com/api/v1/'
-	const tx = driver.Transaction.makeCreateTransaction(
-		contract,
-		null,
-	    [ driver.Transaction.makeOutput(
-	            driver.Transaction.makeEd25519Condition(doll.publicKey))
-	    ],
-	    doll.publicKey
-	)
-	const txSigned = driver.Transaction.signTransaction(tx, doll.privateKey);
-	conn.postTransaction(txSigned)
-    .then(() => conn.pollStatusAndFetchTransaction(txSigned.id))
-    .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
-
+	const alice = new driver.Ed25519Keypair()
+	const API_PATH = 'https://test.bigchaindb.com/api/v1/';const tx = driver.Transaction.makeCreateTransaction(
+    { contract },
+    null,
+    [ driver.Transaction.makeOutput(
+        driver.Transaction.makeEd25519Condition(alice.publicKey))],
+    alice.publicKey)
+	const txSigned = driver.Transaction.signTransaction(tx, alice.privateKey)
+	conn.postTransactionCommit(txSigned)
+	return txSigned.id;
 }
 
 router.post("/contracts/c2c", (req, res) => {
@@ -329,7 +326,9 @@ router.get("/contracs/show/:type/:id", (req, res) => {
 
 router.put("/contracts/c2c", (req, res) => {
 	C2C.findByIdAndUpdate(req.body._id, C2CF2M(req.body), (err, c) => {
-		postBigchain(JSON.stringify(c, undefined, 2));
+		let s = postBigchain(JSON.stringify(c, undefined, 2));
+		c.set({txId: s});
+		c.save();
 		if(!err) res.status(200).send();
 		else res.status(500).send();
 	});
@@ -339,7 +338,9 @@ router.put("/contracts/c2c", (req, res) => {
 //Using put to update status'es
 router.put("/contracts/cev", (req, res) => {
 	CEV.findByIdAndUpdate(req.body._id, CEVF2M(req.body), (err, c) => {
-		postBigchain(JSON.stringify(c, undefined, 2));
+		let s = postBigchain(JSON.stringify(c, undefined, 2));
+		c.set({txId: s});
+		c.save();
 		if(!err) res.status(200).send();
 		else res.status(500).send();
 
@@ -348,7 +349,10 @@ router.put("/contracts/cev", (req, res) => {
 
 router.put("/contracts/cue", (req, res) => {
 	CUE.findByIdAndUpdate(req.body._id, CUEF2M(req.body), (err,c) => {
-		postBigchain(JSON.stringify(c, undefined, 2));
+		
+		let s = postBigchain(JSON.stringify(c, undefined, 2));
+		c.set({txId: s});
+		c.save();
 		if(!err)	res.status(200).send();
 		else res.status(500).send();
 	});
@@ -356,7 +360,9 @@ router.put("/contracts/cue", (req, res) => {
 
 router.put("/contracts/cc", (req, res) => {
 	CC.findByIdAndUpdate(req.body._id, CCF2M(req.body), (err, c) => {
-		postBigchain(JSON.stringify(c, undefined, 2));
+		let s = postBigchain(JSON.stringify(c, undefined, 2));
+		c.set({txId: s});
+		c.save();
 		if(!err) 	res.status(200).send();
 		else res.status(500).send();
 	})

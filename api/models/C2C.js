@@ -7,6 +7,7 @@ var C2CSchema = new mongoose.Schema({
 	hiredOk: { type: Boolean },
 	description: { type: String },
 	status: { type: String },
+	txId: {type: String},
 	celebrationDate: { type: String }
 });
 

@@ -24,6 +24,7 @@ var CCSchema = new mongoose.Schema({
 		lng 	  : {type: Number, default : 0} //for geocoder-further-use
 	},
 	status: { type: String },
+	txId: {type: String},
 	celebrationDate: { type: String }
 });
 //Description should be things like date, place, etc

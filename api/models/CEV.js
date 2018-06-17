@@ -11,6 +11,7 @@ var CEVSchema = new mongoose.Schema({
 	paymentMethod : { type: String },
 	description: { type: String },
 	status: { type: String },
+	txId: {type: String},
 	celebrationDate: { type: String }
 });
 //Description should be things like date, place, etc

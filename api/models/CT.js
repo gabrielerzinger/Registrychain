@@ -32,6 +32,7 @@ var CTSchema = new mongoose.Schema({
 	employeeOk : { type: Boolean },
 	companyOk: { type: Boolean },
 	status: { type: String },
+	txId: {type: String},
 	celebrationDate: { type: String }
 });
 //Description should be things like date, place, etc

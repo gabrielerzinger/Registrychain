@@ -11,6 +11,7 @@ var CIPBSchema = new mongoose.Schema({
 		pdfLink   : { type: String}
 	},
 	ownerOk        : { type: Boolean },
+	txId: {type: String},
 	status         : { type: String },
 	celebrationDate: { type: String }
 });
