@@ -16,9 +16,10 @@ new CronJob('*/10 * * * * *', function(){
 	console.log("works");
 	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate('buyer').populate('seller').exec((e, c) => {
 		c.forEach( cc => {
-			checkifTr(cc.buyer.wallet, cc.seller.wallet, 50).then(status => {
+			checkifTr(cc.buyer.wallet, cc.seller.wallet, cc.value).then(status => {
 				if(!status) return;
 				cc.set({xrpOk: true});
+				postBigchain(cc);
 				cc.save((err, success) => {
 					if(err) {
 						console.log('Error while updating contract '+cc._id);
@@ -42,18 +43,21 @@ const api = new RippleAPI({
 
 const doll =  new driver.Ed25519Keypair();
 
-function checkifTr(firstAddrs, secondAddrs, amount){
+function checkifTr(secondAddrs, firstAddrs, amount){
 	return api.connect().then(() => {
-		let firstAddrs = 'rs2qdz5stxyWeMk6sNz5mLY6h5xxPYNJ8u';
-		let secondAddrs = 'r9kiSEUEw6iSCNksDVKf9k3AyxjW3r1qPf';
+		//let firstAddrs = 'rs2qdz5stxyWeMk6sNz5mLY6h5xxPYNJ8u';
+		//let secondAddrs = 'r9kiSEUEw6iSCNksDVKf9k3AyxjW3r1qPf';
 		console.log("getting acc info");
 		return api.getTransactions(firstAddrs).then( transactions => {
 			for(let i = 0; i < transactions.length; i++){
 				let tx = transactions[i];
-				if(tx.specification.source.address == firstAddrs && tx.specification.destination.address == secondAddrs
-					&& tx.outcome.deliveredAmount.value == amount){
-					console.log('returning')
-					return true;
+				console.log(tx);
+				if(tx.type == 'payment'){
+					if(tx.specification.source.address == firstAddrs && tx.specification.destination.address == secondAddrs
+						&& tx.outcome.deliveredAmount.value == amount){
+						console.log('returning')
+						return true;
+					}
 				}
 			}
 			return false;
