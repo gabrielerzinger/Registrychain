@@ -11,6 +11,9 @@ export class User {
     pubkey: string = '';
     pubkeyurl: string | undefined = undefined;
     wallet: string | undefined = undefined;
+    phone: string = '';
+    authid: string = '';
+    verified: string = 'not verified';
 
     constructor(user?: any){
         if(user != undefined){

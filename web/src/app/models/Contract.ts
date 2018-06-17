@@ -22,6 +22,7 @@ export class Contract {
     public address?: Address | undefined = undefined;
     public xrpOk?: boolean | undefined = undefined;
 
+    public txId: string | undefined = undefined;
 
     constructor(contract?: any){
         if(contract) Object.assign(this, contract);
