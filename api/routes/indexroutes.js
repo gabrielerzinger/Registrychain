@@ -13,7 +13,8 @@ var util     = require('util');
 var CronJob = require('cron').CronJob;
 
 new CronJob('0 */5 * * * *', function(){
-	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate(buyer).populate(seller).exec(function(e, c){
+	console.log("works");
+	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate('buyer').populate('seller').exec(function(e, c){
 		c.forEach( function(cc) {
 			if(checkifTr(cc.buyer.wallet, cc.seller.wallet, cc.value))
 			{
@@ -122,7 +123,7 @@ router.post("/register", (req, res) => {
 		if(user) return res.status(403).send('Username already in use');
 		delete req.body.user._id;
 		User.create(Object.assign(req.body.user, {pubkey: usrK.publicKey}), (err, u) => {
-			if(err) return res.status(500).send();
+			if(err) return res.status(500).send(); 
 			res.status(201).json(u);
 		});
 	});
