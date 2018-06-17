@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { trigger, state, style, animate, transition, keyframe } from '@angular/animations';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -38,7 +37,7 @@ export class RegisterComponent implements OnInit {
                 if(!this.checkCPF(this.user.cpf)) return this.errToast('Insira um CPF válido!');
                 this.user.cpf = this.user.cpf.replace(/[.\-]/g,'');
                 this.userService.checkUser(this.user.cpf).subscribe(res => {
-                    if(!res.available) return this.errToast('Você já está cadastrado!');
+                    if(!res['available']) return this.errToast('Você já está cadastrado!');
                     // Capitalizes first letter of each word before saving it
                     this.user.name = this.user.name.split(' ').map(x => x.substring(0,1).toUpperCase() + x.substring(1, x.length).toLowerCase()).join(' ');
                     this.user.username = this.user.cpf;
@@ -53,7 +52,7 @@ export class RegisterComponent implements OnInit {
           case 2:
             if(this.phoneForm.valid){
                 this.userService.authyRegister(this.user).subscribe(u => {
-                    if(!u.success) return this.errToast('Insira um número de telefone válido!');
+                    if(!u['success']) return this.errToast('Insira um número de telefone válido!');
                     this.user.authid = u['user']['id'];
                     this.step = 3;
                 }, err => {

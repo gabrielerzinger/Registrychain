@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { trigger, state, style, animate, transition, keyframe } from '@angular/animations';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap';
