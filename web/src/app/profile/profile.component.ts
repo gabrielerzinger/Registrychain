@@ -96,7 +96,7 @@ export class ProfileComponent implements OnInit {
         this.userService.requestToken(this.user).subscribe( () => {
             contract.parties.find(x => x.user._id == this.user._id).accepted = true;
             if(contract.parties.every(x => x.accepted)) {
-                if(contract.type != 'cev' || contract.xrpOk){
+                if(contract.type != 'cev' || contract.xrpOk || contract.paymentMethod.toLowerCase() != 'xrp'){
                     contract.status = 'celebrated';
                     contract.celebrationDate = moment().format('DD-MM-YYYY');
                 }
@@ -115,15 +115,17 @@ export class ProfileComponent implements OnInit {
     }
 
     refuse(contract: Contract){
-        this.contractService.refuse(contract).subscribe(()=>{
-            this.onRefuse(contract);
-        }, () => {
-            let toast: Toast = {
-                type: 'error',
-                title: 'Ops!',
-                body: 'Não foi possível efetuar essa ação!'
-            };
-            this.toasterService.pop(toast);
+        this.userService.requestToken(this.user).subscribe( () => {
+            this.contractService.refuse(contract).subscribe(()=>{
+                this.onRefuse(contract);
+            }, () => {
+                let toast: Toast = {
+                    type: 'error',
+                    title: 'Ops!',
+                    body: 'Não foi possível efetuar essa ação!'
+                };
+                this.toasterService.pop(toast);
+            });
         });
     }
 
