@@ -19,7 +19,12 @@ new CronJob('*/10 * * * * *', function(){
 			if(checkifTr(cc.buyer.wallet, cc.seller.wallet, 50))
 			{
 				c.xrpOk = true;
-				c.save();
+				c.set({xrpOk: true});
+				c.save((err, c) => {
+					if(err) {
+						console.log('Error while updating contract '+c._id);
+					}
+				});
 			}
 		});
 	});
