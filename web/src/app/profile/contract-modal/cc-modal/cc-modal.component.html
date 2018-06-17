@@ -1,0 +1,175 @@
+<div class="container text-center card p-3">
+    <h5>Contrato ID {{contract._id}}</h5>
+    <h6>{{contract.status == 'celebrated' ? 'Celebrado em '+ contract.celebrationDate : 'Assinatura(s) pendente(s)'}}</h6>
+    <br>
+    <h5>Identificação das partes:</h5>
+    <div class="card text-justify p-3">
+        <p>
+            <span *ngIf="contract.status != 'celebrated'">{{ part2.user.name }}</span>
+        </p>
+        <div *ngIf="contract.status == 'celebrated'" class="text-justify pl-3">
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Nome:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part2.user.name}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>CPF:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part2.user.cpf}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>RG:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part2.user.rg}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Nome do Pai:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part2.parents.fatherName}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Nome da Mãe:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part2.parents.motherName}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Endereço:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part2.user.address}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Email:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part2.user.email}}
+                </div>
+            </div>
+        </div>
+        <br>
+        <p>
+            <span *ngIf="contract.status != 'celebrated'">{{ part1.user.name }}</span>
+        </p>
+        <div *ngIf="contract.status == 'celebrated'" class="text-justify pl-3">
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Nome:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part1.user.name}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>CPF:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part1.user.cpf}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>RG:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part1.user.rg}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Nome do Pai:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part1.parents.fatherName}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Nome da Mãe:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part1.parents.motherName}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Endereço:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part1.user.address}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Email:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{part1.user.email}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h5>Endereço Registrado</h5>
+    <div class="text-justify pl-3 card">
+        <div class="row mx-0">
+            <div class="col-sm-4">
+                <strong>Endereço:</strong>
+            </div>
+            <div class="col-sm-8">
+                {{contract.address.street}}, {{contract.address.number}}
+            </div>
+        </div>
+        <div class="row mx-0">
+            <div class="col-sm-4">
+                <strong>Bairro:</strong>
+            </div>
+            <div class="col-sm-8">
+                {{contract.address.neighborhood}}
+            </div>
+        </div>
+        <div class="row mx-0">
+            <div class="col-sm-4">
+                <strong>CEP:</strong>
+            </div>
+            <div class="col-sm-8">
+                {{contract.address.postalCode}}
+            </div>
+        </div>
+        <div class="row mx-0">
+            <div class="col-sm-4">
+                <strong>Cidade:</strong>
+            </div>
+            <div class="col-sm-8">
+                {{contract.address.city}}
+            </div>
+        </div>
+        <div class="row mx-0">
+            <div class="col-sm-4">
+                <strong>Estado:</strong>
+            </div>
+            <div class="col-sm-8">
+                {{contract.address.state}}
+            </div>
+        </div>
+   </div>
+</div>

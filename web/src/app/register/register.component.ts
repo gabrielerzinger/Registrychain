@@ -11,19 +11,7 @@ import { UserService } from '../services/user.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
-  animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [
-        style({opacity: 0}),
-        animate('0.3s ease-in', style({opacity: 1}))
-      ]),
-      transition(':leave', [
-        style({opacity: 1}),
-        animate('0.3s ease-out', style({opacity: 0}))
-      ])
-    ]
-  ]
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
     public user: User = new User();
@@ -48,6 +36,7 @@ export class RegisterComponent implements OnInit {
             if(this.regForm.valid) {
                 if(!this.checkEmail(this.user.email)) return this.errToast('Insira um endereço de email válido!');
                 if(!this.checkCPF(this.user.cpf)) return this.errToast('Insira um CPF válido!');
+                this.user.cpf = this.user.cpf.replace(/[.\-]/g,'');
                 this.userService.checkUser(this.user.cpf).subscribe(res => {
                     if(!res.available) return this.errToast('Você já está cadastrado!');
                     // Capitalizes first letter of each word before saving it

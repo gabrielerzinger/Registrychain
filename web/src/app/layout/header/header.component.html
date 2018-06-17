@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-dark">
+<nav class="navbar navbar-expand bg-dark">
     <div class="container">
         <a class="navbar-brand" routerLink="/">RegistryChain</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive">
@@ -11,7 +11,7 @@
                     <a class="nav-link" routerLink="/">Proposta</a>
                 </li>
                 <li *ngIf="currUser" class="nav-item">
-                    <a class="nav-link" routerLink="/profile">Contratos</a>
+                    <a class="nav-link" routerLink="/contracts">Contratos</a>
                 </li>
                 <li *ngIf="currUser" class="nav-item">
                     <a class="nav-link" routerLink="/profile">Perfil</a>
@@ -26,6 +26,14 @@
                     <a class="nav-link" routerLink="/register">Registrar</a>
                 </li>
             </ul>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand bg-warning border-top border-light rounded-bottom" [class.clickable]="currUser && currUser.verified=='not verified'" *ngIf="currUser && currUser.verified!='verified'" (click)="router.navigate(['/verify'])">
+    <div class="row w-100">
+        <div class="col-12 text-center">
+            <span *ngIf="currUser.verified=='not verified'">Seus documentos não foram verificados e seu acesso é limitado. Clique aqui para verificá-los!</span>
+            <span *ngIf="currUser.verified=='pending'">Estamos verificando seus documentos e seu acesso será liberado em breve!</span>
         </div>
     </div>
 </nav>

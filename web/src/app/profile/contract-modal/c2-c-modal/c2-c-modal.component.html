@@ -1,0 +1,105 @@
+<div class="container text-center card p-3">
+    <h5>Contrato ID {{contract._id}}</h5>
+    <h6>{{contract.status == 'celebrated' ? 'Celebrado em '+ contract.celebrationDate : 'Assinatura(s) pendente(s)'}}</h6>
+    <br>
+    <h5>Identificação das partes:</h5>
+    <div class="card text-justify p-3">
+        <p>
+            <strong>Contratante: </strong>
+            <span *ngIf="contract.status != 'celebrated'">{{ hirer.user.name }}</span>
+        </p>
+        <div *ngIf="contract.status == 'celebrated'" class="text-justify pl-3">
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Nome:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{hirer.user.name}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>CPF:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{hirer.user.cpf}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>RG:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{hirer.user.rg}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Endereço:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{hirer.user.address}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Email:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{hirer.user.email}}
+                </div>
+            </div>
+        </div>
+        <br>
+        <p>
+            <strong>Contratada: </strong>
+            <span *ngIf="contract.status != 'celebrated'">{{ hired.user.name }}</span>
+        </p>
+        <div *ngIf="contract.status == 'celebrated'" class="text-justify pl-3">
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Nome:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{hired.user.name}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>CPF:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{hired.user.cpf}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>RG:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{hired.user.rg}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Endereço:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{hired.user.address}}
+                </div>
+            </div>
+            <div class="row mx-0">
+                <div class="col-sm-4">
+                    <strong>Email:</strong>
+                </div>
+                <div class="col-sm-8">
+                    {{hired.user.email}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <h5>Descrição do contrato:</h5>
+    <div class="card text-justify p-3">
+        <p>{{contract.description}}</p>
+    </div>
+</div>

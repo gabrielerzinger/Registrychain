@@ -1,0 +1,8 @@
+.panel {
+    border-radius: 10px;
+    border: 1px solid gray;
+    border-top: 3px solid gray;
+    padding: 20px 70px;
+    background-color: white;
+    opacity: 0.85;
+}

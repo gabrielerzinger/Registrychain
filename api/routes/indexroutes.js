@@ -1,5 +1,15 @@
 var express  = require("express");
 var router   = express.Router();
+var multer	 = require('multer');
+var storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, 'docs/'+file.fieldname);
+	},
+	filename: (req, file, cb) => {
+		cb(null, req.params.cpf+'.jpg');
+	}
+});
+var upload   = multer({storage: storage});
 
 const bip39  = require('bip39');
 const driver = require('bigchaindb-driver');
@@ -11,6 +21,7 @@ var CUE 	 = require("../models/CUE");
 var User     = require("../models/user");
 var util     = require('util');
 var authy 	 = require('authy')('RZ5xxY6RXXpkZa0PQIFwdG04VUqnXrca');
+var fs		 = require('fs');
 
 const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', {
 	    app_id: '20088fc5',
@@ -100,6 +111,21 @@ router.post("/register", (req, res) => {
 			res.status(201).json(u);
 		});
 	});
+});
+
+router.post("/docs/:cpf", upload.fields([{ name: 'photo', maxCount: 1}, {name: 'rg_front', maxCount: 1}, {name: 'rg_back', maxCount: 1}]), (req, res) => {
+	console.log(req.params.cpf);
+	User.findOne({'cpf': req.params.cpf}, (err, user) => {
+		if(err) return res.status(500).send();
+		if(user) {
+			user.set({verified: 'pending'});
+			user.save((err, upd) => {
+				if(!err) return res.status(200).send();
+				else return res.status(400).send();
+			});
+		}
+		else return res.status(400).send();
+	})
 });
 
 router.post("/login", (req, res) => {

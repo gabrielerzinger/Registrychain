@@ -13,7 +13,7 @@ var userSchema = new mongoose.Schema({
 	password: String,
 	authid	: String,
 	phone	: String,
-	verified: Boolean
+	verified: String
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -20,7 +20,7 @@ export class Contract {
     public item?: Item | undefined = undefined;
     public paymentMethod?: string | undefined = undefined;
     public address?: Address | undefined = undefined;
-
+    public txId: string | undefined = undefined;
 
     constructor(contract?: any){
         if(contract) Object.assign(this, contract);

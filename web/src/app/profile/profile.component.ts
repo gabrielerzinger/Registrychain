@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
+import { Router } from '@angular/router';
 import { ToasterService, Toast } from 'angular2-toaster';
 import * as moment from 'moment';
 import { Subject, Subscription } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { TabsetComponent } from 'ngx-bootstrap';
 
 import { User, Contract } from '../models';
 import {UserService} from '../services/user.service';
@@ -16,6 +18,7 @@ import {ContractService} from '../services/contract.service';
 export class ProfileComponent implements OnInit {
 
     @ViewChild('parentsModal') parentsModal: ModalDirective;
+    @ViewChild('tabs') tabset: any;
 
     public user: User;
     public myContracts: Contract[] = [];
@@ -47,7 +50,7 @@ export class ProfileComponent implements OnInit {
     public loadingPending: boolean = true;
     public loadingCelebrated: boolean = true;
 
-    constructor(public userService: UserService, public contractService: ContractService, public toasterService: ToasterService) {
+    constructor(public userService: UserService, public contractService: ContractService, public toasterService: ToasterService, public router: Router) {
         userService.userSubject.subscribe(u => {
             this.user = u;
             if(u) {
@@ -89,20 +92,22 @@ export class ProfileComponent implements OnInit {
     }
 
     acceptDone(contract: Contract){
-        contract.parties.find(x => x.user._id == this.user._id).accepted = true;
-        if(contract.parties.every(x => x.accepted)) {
-            contract.status = 'celebrated';
-            contract.celebrationDate = moment().format('DD-MM-YYYY');
-        };
-        this.contractService.accept(contract).subscribe(() => {
-            this.onAccept(contract);
-        }, () => {
-            let toast: Toast = {
-                type: 'error',
-                title: 'Ops!',
-                body: 'Não foi possível efetuar essa ação!'
+        this.userService.requestToken(this.user).subscribe( () => {
+            contract.parties.find(x => x.user._id == this.user._id).accepted = true;
+            if(contract.parties.every(x => x.accepted)) {
+                contract.status = 'celebrated';
+                contract.celebrationDate = moment().format('DD-MM-YYYY');
             };
-            this.toasterService.pop(toast);
+            this.contractService.accept(contract).subscribe(() => {
+                this.onAccept(contract);
+            }, () => {
+                let toast: Toast = {
+                    type: 'error',
+                    title: 'Ops!',
+                    body: 'Não foi possível efetuar essa ação!'
+                };
+                this.toasterService.pop(toast);
+            });
         });
     }
 
@@ -151,6 +156,9 @@ export class ProfileComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.tabset)
+        this.tabset.tabs[0].active = true;
+        if(this.router.url == '/contracts') this.tabset.tabs[1].active = true;
     }
 
     onSubmit(){

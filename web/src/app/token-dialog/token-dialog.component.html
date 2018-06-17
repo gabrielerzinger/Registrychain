@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Verificação em Duas Etapas</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="container">
+        Insira seu token de acesso gerado pelo Authy:
+        <input class="form-control mt-2" type="text" placeholder="Token" [(ngModel)]="token">
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="sendToken()">Enviar</button>
+</div>

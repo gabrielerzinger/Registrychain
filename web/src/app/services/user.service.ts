@@ -4,7 +4,10 @@ import { HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http'
 import { Observable, ReplaySubject, throwError } from 'rxjs';
 import { catchError }from 'rxjs/operators';
 import  QRCode from 'qrcode';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { ToasterService, Toast } from 'angular2-toaster';
 
+import { TokenDialogComponent } from '../token-dialog/token-dialog.component';
 import { User } from '../models';
 const httpOptions = {
     headers: new HttpHeaders({
@@ -19,8 +22,9 @@ const httpOptions = {
 export class UserService {
     public user: User;
     public userSubject: ReplaySubject<User> = new ReplaySubject<User>(1);
+    public tokenRef: BsModalRef;
 
-    constructor(public http: HttpClient, public router: Router) {
+    constructor(public http: HttpClient, public router: Router, public bsModalService: BsModalService, public toasterService: ToasterService) {
         if(sessionStorage.getItem('pubkey')){
             this.getUser(sessionStorage.getItem('pubkey')).subscribe(u => {
                 this.userSubject.next(this.user);
@@ -73,6 +77,11 @@ export class UserService {
         });
     }
 
+    sendDocs(user: User, obj: any){
+        console.log(obj);
+        return this.http.post('http://localhost:3000/docs/'+user.cpf, obj, { headers: new HttpHeaders()});
+    }
+
     login(pubkey: string, password: string): Observable<any> {
         return Observable.create(o => {
             this.http.post('http://localhost:3000/login', {
@@ -100,5 +109,34 @@ export class UserService {
         sessionStorage.removeItem('pubkey');
         this.userSubject.next(null);
         this.router.navigate(['/']);
+    }
+
+    requestToken(user: User){
+        return Observable.create(observer => {
+            let bsModalRef = this.bsModalService.show(TokenDialogComponent, {
+                animated: true,
+                backdrop: "static",
+                ignoreBackdropClick: true
+            });
+            bsModalRef.content.getToken().subscribe(tok => {
+                this.checkToken(user, tok).subscribe(res => {
+                    if(res['token'] == 'is valid'){
+                        observer.next(true);
+                        observer.complete();
+                        bsModalRef.hide();
+                    }
+                    else {
+                        let toast: Toast = {
+                            type: 'error',
+                            title: 'Ops!',
+                            body: 'Token inválido!'
+                        };
+                        this.toasterService.pop(toast);
+                        bsModalRef.content.token = '';
+                    }
+                })
+            });
+
+        });
     }
 }
