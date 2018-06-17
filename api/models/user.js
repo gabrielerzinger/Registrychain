@@ -12,7 +12,8 @@ var userSchema = new mongoose.Schema({
 	pubkey  : String,
 	password: String,
 	authid	: String,
-	phone	: String
+	phone	: String,
+	verified: Boolean
 });
 
 module.exports = mongoose.model("User", userSchema);
