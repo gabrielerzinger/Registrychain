@@ -20,6 +20,7 @@ export class Contract {
     public item?: Item | undefined = undefined;
     public paymentMethod?: string | undefined = undefined;
     public address?: Address | undefined = undefined;
+    public xrpOk?: boolean | undefined = undefined;
 
 
     constructor(contract?: any){

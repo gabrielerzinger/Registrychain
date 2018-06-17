@@ -91,8 +91,10 @@ export class ProfileComponent implements OnInit {
     acceptDone(contract: Contract){
         contract.parties.find(x => x.user._id == this.user._id).accepted = true;
         if(contract.parties.every(x => x.accepted)) {
-            contract.status = 'celebrated';
-            contract.celebrationDate = moment().format('DD-MM-YYYY');
+            if(contract.type != 'cev' || contract.xrpOk){
+                contract.status = 'celebrated';
+                contract.celebrationDate = moment().format('DD-MM-YYYY');
+            }
         };
         this.contractService.accept(contract).subscribe(() => {
             this.onAccept(contract);
