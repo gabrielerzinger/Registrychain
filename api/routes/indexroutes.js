@@ -12,10 +12,11 @@ var User     = require("../models/user");
 var util     = require('util');
 var CronJob = require('cron').CronJob;
 
-new CronJob('0 */5 * * * *', function(){
+new CronJob('*/10 * * * * *', function(){
+	console.log("works");
 	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate('buyer').populate('seller').exec(function(e, c){
 		c.forEach( function(cc) {
-			if(checkifTr(cc.buyer.wallet, cc.seller.wallet, cc.value))
+			if(checkifTr(cc.buyer.wallet, cc.seller.wallet, 50))
 			{
 				c.xrpOk = true;
 				c.save();
@@ -47,6 +48,7 @@ function checkifTr(firstAddrs, secondAddrs, amount){
 				if(tx.type == 'payment'){
 					if(tx.specification.source.address == firstAddrs && tx.specification.destination.address == secondAddrs
 						&& tx.outcome.deliveredAmount.value == amount){
+						console.log('returning')
 						return true;
 					}
 				}
