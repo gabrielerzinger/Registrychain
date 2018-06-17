@@ -33,6 +33,7 @@ new CronJob('*/10 * * * * *', function(){
 			checkifTr(cc.buyer.wallet, cc.seller.wallet, cc.value).then(status => {
 				if(!status) return;
 				cc.set({xrpOk: true});
+				cc.set({status: 'celebrated'});
 				postBigchain(cc);
 				cc.save((err, success) => {
 					if(err) {
@@ -463,7 +464,9 @@ CEVF2M = (x) => {
 		paymentMethod: x['paymentMethod'],
 		description: x['description'],
 		status: x['status'],
-		celebrationDate: x['celebrationDate']
+		celebrationDate: x['celebrationDate'],
+		txId: x['txId'],
+		xrpOk: x['xrpOk']
    };
 }
 
@@ -477,7 +480,8 @@ CUEF2M = (x) => {
 		residentTwoOk: residentTwo['accepted'],
 		address: x['address'], //not sure.
 		status: x['status'],
-		celebrationDate: x['celebrationDate']
+		celebrationDate: x['celebrationDate'],
+		txId: x['txId']
    };
 }
 
@@ -493,7 +497,8 @@ CCF2M = (x) => {
 		consortTwoParents: consortTwo['parents'],
 		address: x['address'], //not sure.
 		status: x['status'],
-		celebrationDate: x['celebrationDate']
+		celebrationDate: x['celebrationDate'],
+		txId: x['txId']
    };
 }
 
@@ -518,7 +523,9 @@ CEVM2F = (x) => {
 		description: x.description,
 		status: x.status,
 		type: 'cev',
-		celebrationDate: x.celebrationDate
+		celebrationDate: x.celebrationDate,
+		xrpOk: x.xrpOk,
+		txId: x.txId
 	};
 }
 
@@ -533,7 +540,8 @@ C2CF2M = (x) => {
 		hiredOk: hired.accepted,
 		status: x.status,
 		description: x.description,
-		celebrationDate: x.celebrationDate
+		celebrationDate: x.celebrationDate,
+		txId: x.txId
 	}
 }
 
@@ -553,7 +561,8 @@ C2CM2F = (x) => {
 		description: x.description,
 		status: x.status,
 		type: 'c2c',
-		celebrationDate: x.celebrationDate
+		celebrationDate: x.celebrationDate,
+		txId: x.txId
 	};
 }
 
@@ -572,7 +581,8 @@ CUEM2F = (x) => {
 		address : x.address,
 		status: x.status,
 		type: 'cue',
-		celebrationDate: x.celebrationDate
+		celebrationDate: x.celebrationDate,
+		txId: x.txId
 	};
 }
 
@@ -593,7 +603,8 @@ CCM2F = (x) => {
 		address : x.address,
 		status: x.status,
 		type: 'cc',
-		celebrationDate: x.celebrationDate
+		celebrationDate: x.celebrationDate,
+		txId: x.txId
 	};
 }
 

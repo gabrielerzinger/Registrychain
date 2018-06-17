@@ -60,6 +60,7 @@ export class ProfileComponent implements OnInit {
                 });
                 contractService.getPendingContracts(u).subscribe(c => {
                     this.pendingContracts = c;
+                    console.log(this.pendingContracts);
                     setTimeout(()=>this.loadingPending = false, 500);
                 });
             }
@@ -155,6 +156,10 @@ export class ProfileComponent implements OnInit {
             break;
         }
 
+    }
+
+    waiting(c: Contract){
+        return (c.parties.every(p => p.accepted) && !c.xrpOk);
     }
 
     ngOnInit() {

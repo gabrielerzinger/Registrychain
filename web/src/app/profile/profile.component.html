@@ -82,9 +82,9 @@
 										<td>{{c.type == 'c2c' ? 'Pessoas Físicas' : (c.type == 'cev' ? 'Compra & Venda' : (c.type == 'cue' ? 'União Estável' : 'Casamento'))}}</td>
 										<td>{{getCounterpart(c).user.name}}</td>
 										<td>
-											<span *ngIf="c.type=='cev' && c.buyerOk && c.sellerOk">Aguardando Pagamento...</span>
+											<span *ngIf="c.type=='cev' && waiting(c)">Aguardando Pagamento...</span>
 											<button class="btn btn-success"  (click)="accept(c)" *ngIf="!getMe(c).accepted" [disabled]="user.verified != 'verified'">Aceitar</button>
-											<button class="btn btn-danger ml-2" (click)="refuse(c)" [disabled]="user.verified != 'verified'" *ngIf="c.type != 'cev' || (!c.buyerOk || !c.sellerOk)">{{getMe(c).accepted?'Cancelar':'Rejeitar'}}</button>
+											<button class="btn btn-danger ml-2" (click)="refuse(c)" [disabled]="user.verified != 'verified'" *ngIf="c.type != 'cev' || !waiting(c)">{{getMe(c).accepted?'Cancelar':'Rejeitar'}}</button>
 										</td>
 									</tr>
 								</tbody>

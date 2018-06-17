@@ -11,7 +11,7 @@ var userSchema = new mongoose.Schema({
 	lng     : Number,
 	pubkey  : String,
 	password: String,
-	wallet  : String
+	wallet  : String,
 	authid	: String,
 	phone	: String,
 	verified: String
