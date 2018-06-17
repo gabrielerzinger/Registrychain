@@ -10,7 +10,8 @@ var userSchema = new mongoose.Schema({
 	lat     : Number,
 	lng     : Number,
 	pubkey  : String,
-	password: String
+	password: String,
+	wallet  : String
 });
 
 module.exports = mongoose.model("User", userSchema);

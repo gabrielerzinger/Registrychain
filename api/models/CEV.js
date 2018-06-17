@@ -5,6 +5,7 @@ var CEVSchema = new mongoose.Schema({
 	seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 	buyerOk : { type: Boolean },
 	sellerOk: { type: Boolean },
+	xrpOk   : { type: Boolean, default : false},
 	item   : { type: String },
 	value  : { type: Number},
 	paymentMethod : { type: String },

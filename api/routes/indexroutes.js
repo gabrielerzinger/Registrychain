@@ -10,6 +10,19 @@ var cripto   = require("crypto");
 var CUE 	 = require("../models/CUE");
 var User     = require("../models/user");
 var util     = require('util');
+var CronJob = require('cron').CronJob;
+
+new CronJob('0 */5 * * * *', function(){
+	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate(buyer).populate(seller).exec(function(e, c){
+		c.forEach( function(cc) {
+			if(checkifTr(cc.buyer.wallet, cc.seller.wallet, cc.value))
+			{
+				c.xrpOk = true;
+				c.save();
+			}
+		});
+	});
+}, null, true);
 
 
 const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', {
@@ -17,7 +30,38 @@ const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', {
 	    app_key: 'c352512f9ce8c7c3d8af841555d1684c'
 });
 
+const RippleAPI = require('ripple-lib').RippleAPI;
+const api = new RippleAPI({
+	server: 'wss://s2.ripple.com' 
+});
+
 const doll =  new driver.Ed25519Keypair();
+
+function checkifTr(firstAddrs, secondAddrs, amount){
+	api.connect().then(() => {
+		let firstAddrs = 'rs2qdz5stxyWeMk6sNz5mLY6h5xxPYNJ8u';
+		let secondAddrs = 'r9kiSEUEw6iSCNksDVKf9k3AyxjW3r1qPf';
+		console.log("getting acc info");
+		return api.getTransactions(firstAddrs).then( transactions => {
+			transactions.forEach( function(tx) {
+				if(tx.type == 'payment'){
+					if(tx.specification.source.address == firstAddrs && tx.specification.destination.address == secondAddrs
+						&& tx.outcome.deliveredAmount.value == amount){
+						return true;
+					}
+				}
+			});
+			return false;
+		});
+	});
+	
+}
+
+/*
+router.get("/", (req, res) => {
+	checkifTr('rs2qdz5stxyWeMk6sNz5mLY6h5xxPYNJ8u', 'r9kiSEUEw6iSCNksDVKf9k3AyxjW3r1qPf', '50');
+});
+*/
 
 function postBigchain(contract) {
 	const API_PATH = 'https://test.bigchaindb.com/api/v1/'
@@ -52,10 +96,16 @@ router.post("/contracts/cev", (req, res) => {
 });
 
 router.post("/contracts/cue", (req, res) => {
-	CUE.create(CUEF2M(req.body), (err, c) => {
-		if(err) res.status(500).send();
-		else res.status(200).send();
-	});
+	if( checkifTr(req.body.buyerAddrs, req.body.sellerAddrs, req.body.XRPPrice) ){
+		CUE.create(CUEF2M(req.body), (err, c) => {
+			if(err) res.status(500).send();
+			else res.status(200).send();
+		});
+	}
+	else
+	{
+		console.log("O pagamento ainda nao foi realizado e/ou nao consta na rede Ripple\n");
+	}
 });
 
 router.post("/contracts/cc", (req, res) => {
@@ -330,6 +380,8 @@ router.delete("/contracts/cc/:id", (req, res) => {
 		else res.status(500).send();
 	});
 });
+
+
 
 //CEV Front to Mongo
 CEVF2M = (x) => {
