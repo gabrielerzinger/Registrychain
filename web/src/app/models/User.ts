@@ -10,6 +10,8 @@ export class User {
     lng: number | undefined = undefined;
     pubkey: string = '';
     pubkeyurl: string | undefined = undefined;
+    phone: string = '';
+    authid: string = '';
 
     constructor(user?: any){
         if(user != undefined){

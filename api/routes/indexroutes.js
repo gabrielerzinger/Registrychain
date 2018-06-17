@@ -10,7 +10,7 @@ var cripto   = require("crypto");
 var CUE 	 = require("../models/CUE");
 var User     = require("../models/user");
 var util     = require('util');
-
+var authy 	 = require('authy')('RZ5xxY6RXXpkZa0PQIFwdG04VUqnXrca');
 
 const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', {
 	    app_id: '20088fc5',
@@ -34,6 +34,23 @@ function postBigchain(contract) {
 	    .then(retrievedTx => console.log('Transaction ', retrievedTx.id, ' successfully posted.'))
 
 }
+
+router.post("/authyRegister", (req, res) => {
+	let user = req.body;
+	authy.register_user(user.email, user.phone, '55', (err, rs) => {
+		if(err) res.send(err);
+		else res.send(rs);
+	});
+});
+
+router.get("/checkToken/:token/:authid", (req, res) => {
+	let token = req.params.token;
+	let id = req.params.authid;
+	authy.verify(id, token, (err, rs) => {
+		if(err) res.send(err);
+		else res.send(rs);
+	});
+});
 
 router.post("/contracts/c2c", (req, res) => {
 	C2C.create(C2CF2M(req.body), (err, c) => {
@@ -63,6 +80,14 @@ router.post("/contracts/cc", (req, res) => {
 		else res.status(200).send();
 	});
 });
+
+router.get("/checkUser/:cpf", (req, res) => {
+	User.findOne({'cpf': req.params.cpf}, (err, user) => {
+		if(err) return res.status(500).send({message: 'Internal Error'});
+		if(user) return res.send({message: 'User already exists', available: false});
+		else return res.send({message: 'User available', available: true});
+	});
+})
 
 router.post("/register", (req, res) => {
 	const usrK = new driver.Ed25519Keypair();

@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { Observable, ReplaySubject } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
+import { Observable, ReplaySubject, throwError } from 'rxjs';
+import { catchError }from 'rxjs/operators';
 import  QRCode from 'qrcode';
 
 import { User } from '../models';
-
 const httpOptions = {
     headers: new HttpHeaders({
-        'Content-Type':  'application/json'
-    })
+        'Content-Type':  'application/json',
+        'Access-Control-Allow-Origin': '*'
+    }
 };
 
 @Injectable({
@@ -25,6 +26,18 @@ export class UserService {
                 this.userSubject.next(this.user);
             });
         }
+    }
+
+    authyRegister(user: any){
+        return this.http.post('http://localhost:3000/authyRegister', user);
+    }
+
+    checkUser(cpf: string){
+        return this.http.get('http://localhost:3000/checkUser/'+cpf);
+    }
+
+    checkToken(user: User, token: string){
+        return this.http.get('http://localhost:3000/checkToken/'+token+'/'+user.authid, httpOptions);
     }
 
     getUser(pubkey: string): Observable<any> {

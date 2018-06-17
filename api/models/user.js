@@ -10,7 +10,9 @@ var userSchema = new mongoose.Schema({
 	lat     : Number,
 	lng     : Number,
 	pubkey  : String,
-	password: String
+	password: String,
+	authid	: String,
+	phone	: String
 });
 
 module.exports = mongoose.model("User", userSchema);

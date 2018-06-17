@@ -4,7 +4,7 @@
             <h3>Registre-se</h3>
             <small>Leva só um minuto.</small>
         </div>
-		<form (ngSubmit)="onSubmit()" #regForm="ngForm">
+		<form (ngSubmit)="onSubmit()" #regForm="ngForm" *ngIf="step == 1" [@fadeInOut]>
             <div class="form-group row">
                 <label for="name" class="col-sm-3 col-form-label">Nome</label>
                 <div class="col-sm-9">
@@ -45,6 +45,51 @@
                 <button type="submit" class="btn btn-outline-primary">Registrar</button>
             </div>
 		</form>
+        <form (ngSubmit)="onSubmit()" #phoneForm="ngForm" *ngIf="step == 2" [@fadeInOut]>
+            <div class="container">
+                Para completar seu cadastro, precisamos verificar seu número de telefone:
+            </div>
+            <br>
+            <div class="form-group row">
+                <label for="phone" class="col-sm-3 col-form-label">Telefone</label>
+                <div class="col-sm-9">
+                    <input type="text" id="phone" name="phone" placeholder="12 98765-4321" class="form-control" [(ngModel)]="user.phone" required>
+                </div>
+            </div>
+            <div class="text-right pt-3">
+                <button type="submit" class="btn btn-outline-primary">Confirma</button>
+            </div>
+		</form>
+        <form (ngSubmit)="onSubmit()" #tokenForm="ngForm" *ngIf="step == 3" [@fadeInOut]>
+            <div class="container">
+                Abra o aplicativo Authy em seu telefone e insira o token do RegistryChain:
+            </div>
+            <br>
+            <div class="form-group row">
+                <label for="token" class="col-sm-3 col-form-label">Token</label>
+                <div class="col-sm-9">
+                    <input type="text" id="token" name="token" placeholder="Authy Token" class="form-control" [(ngModel)]="token" required>
+                </div>
+            </div>
+            <div class="text-right pt-3">
+                <button type="submit" class="btn btn-outline-primary">Confirma</button>
+            </div>
+            <div class="container pt-5 text-center">
+                <h5>Instale o Authy</h5>
+                <div class="row">
+                    <div class="col-6">
+                        <a class="text-right" target="_blank" href='https://play.google.com/store/apps/details?id=com.authy.authy&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+                            <img alt='Authy no Google Play' style="width: 200px" src='https://www.designpieces.com/wp-content/uploads/2016/02/google-play-badge.png'/>
+                        </a>
+                    </div>
+                    <div class="col-6 text-left">
+                        <a target="_blank" href="https://itunes.apple.com/us/app/authy/id494168017">
+                            <img alt="Authy na App Store" style="width: 200px" src="http://tapsmart.wpengine.netdna-cdn.com/wp-content/uploads/2014/04/Download_on_the_App_Store_Badge_US-UK_135x40_0824.png">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
 	</div>
 </div>
 
