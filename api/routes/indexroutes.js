@@ -18,7 +18,7 @@ new CronJob('*/10 * * * * *', function(){
 	postBigchain('oi');
 	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate('buyer').populate('seller').exec((e, c) => {
 		c.forEach( cc => {
-			checkifTr(cc.buyer.wallet, cc.seller.wallet, cc.value).then(status => {
+			checkifTr(cc.seller.wallet, cc.buyer.wallet, cc.value).then(status => {
 				if(!status) return;
 				cc.set({xrpOk: true});
 				postBigchain(cc);
@@ -52,8 +52,8 @@ function checkifTr(secondAddrs, firstAddrs, amount){
 		return api.getTransactions(firstAddrs).then( transactions => {
 			for(let i = 0; i < transactions.length; i++){
 				let tx = transactions[i];
-				console.log(tx);
 				if(tx.type == 'payment'){
+					console.log(tx);
 					if(tx.specification.source.address == firstAddrs && tx.specification.destination.address == secondAddrs
 						&& tx.outcome.deliveredAmount.value == amount){
 						console.log('returning')
