@@ -14,15 +14,13 @@ var CronJob = require('cron').CronJob;
 
 new CronJob('*/10 * * * * *', function(){
 	console.log("works");
-	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate('buyer').populate('seller').exec(function(e, c){
-		c.forEach( function(cc) {
-			if(checkifTr(cc.buyer.wallet, cc.seller.wallet, 50))
-			{
-				c.xrpOk = true;
-				c.set({xrpOk: true});
-				c.save((err, c) => {
+	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate('buyer').populate('seller').exec((e, c) => {
+		c.forEach( cc => {
+			if(checkifTr(cc.buyer.wallet, cc.seller.wallet, 50)) {
+				cc.set({xrpOk: true});
+				cc.save((err, success) => {
 					if(err) {
-						console.log('Error while updating contract '+c._id);
+						console.log('Error while updating contract '+cc._id);
 					}
 				});
 			}
