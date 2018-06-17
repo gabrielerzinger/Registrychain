@@ -12,6 +12,7 @@ export class User {
     pubkeyurl: string | undefined = undefined;
     phone: string = '';
     authid: string = '';
+    verified: boolean = false;
 
     constructor(user?: any){
         if(user != undefined){

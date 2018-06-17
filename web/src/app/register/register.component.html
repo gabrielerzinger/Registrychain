@@ -4,7 +4,7 @@
             <h3>Registre-se</h3>
             <small>Leva só um minuto.</small>
         </div>
-		<form (ngSubmit)="onSubmit()" #regForm="ngForm" *ngIf="step == 1" [@fadeInOut]>
+		<form (ngSubmit)="onSubmit()" #regForm="ngForm" *ngIf="step == 1">
             <div class="form-group row">
                 <label for="name" class="col-sm-3 col-form-label">Nome</label>
                 <div class="col-sm-9">
@@ -45,7 +45,7 @@
                 <button type="submit" class="btn btn-outline-primary">Registrar</button>
             </div>
 		</form>
-        <form (ngSubmit)="onSubmit()" #phoneForm="ngForm" *ngIf="step == 2" [@fadeInOut]>
+        <form (ngSubmit)="onSubmit()" #phoneForm="ngForm" *ngIf="step == 2">
             <div class="container">
                 Para completar seu cadastro, precisamos verificar seu número de telefone:
             </div>
@@ -60,7 +60,7 @@
                 <button type="submit" class="btn btn-outline-primary">Confirma</button>
             </div>
 		</form>
-        <form (ngSubmit)="onSubmit()" #tokenForm="ngForm" *ngIf="step == 3" [@fadeInOut]>
+        <form (ngSubmit)="onSubmit()" #tokenForm="ngForm" *ngIf="step == 3">
             <div class="container">
                 Abra o aplicativo Authy em seu telefone e insira o token do RegistryChain:
             </div>
