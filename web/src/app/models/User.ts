@@ -10,6 +10,7 @@ export class User {
     lng: number | undefined = undefined;
     pubkey: string = '';
     pubkeyurl: string | undefined = undefined;
+    wallet: string | undefined = undefined;
 
     constructor(user?: any){
         if(user != undefined){

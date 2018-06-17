@@ -13,7 +13,7 @@ var util     = require('util');
 var CronJob = require('cron').CronJob;
 
 new CronJob('0 */5 * * * *', function(){
-	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate(buyer).populate(seller).exec(function(e, c){
+	CEV.find({$and:[{'buyerOk':true}, {'sellerOk':true}, {'xrpOk':false}]}).populate('buyer').populate('seller').exec(function(e, c){
 		c.forEach( function(cc) {
 			if(checkifTr(cc.buyer.wallet, cc.seller.wallet, cc.value))
 			{
@@ -32,7 +32,7 @@ const conn = new driver.Connection('https://test.bigchaindb.com/api/v1/', {
 
 const RippleAPI = require('ripple-lib').RippleAPI;
 const api = new RippleAPI({
-	server: 'wss://s2.ripple.com' 
+	server: 'wss://s2.ripple.com'
 });
 
 const doll =  new driver.Ed25519Keypair();
@@ -54,7 +54,7 @@ function checkifTr(firstAddrs, secondAddrs, amount){
 			return false;
 		});
 	});
-	
+
 }
 
 /*
